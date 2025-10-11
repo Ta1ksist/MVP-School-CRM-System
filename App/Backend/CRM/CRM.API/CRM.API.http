@@ -1,0 +1,6 @@
+@CRM.API_HostAddress = http://localhost:5100
+
+GET {{CRM.API_HostAddress}}/Api/
+Accept: application/json
+
+###

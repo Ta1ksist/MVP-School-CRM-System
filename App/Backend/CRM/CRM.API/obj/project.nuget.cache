@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "iuGJM0f/gmI=",
+  "success": true,
+  "projectFilePath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.API/CRM.API.csproj",
+  "expectedPackageFiles": [
+    "/Users/izzatmelikov/.nuget/packages/microsoft.aspnetcore.openapi/9.0.9/microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
+    "/Users/izzatmelikov/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}

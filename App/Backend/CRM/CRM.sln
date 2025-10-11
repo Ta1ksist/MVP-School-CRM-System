@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.API", "CRM.API\CRM.API.csproj", "{5F5ADDB3-9BBE-461C-A7EC-D16A1879EF78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC5A803D-2F02-4030-95C6-18F4A44E125A}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F5ADDB3-9BBE-461C-A7EC-D16A1879EF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5ADDB3-9BBE-461C-A7EC-D16A1879EF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5ADDB3-9BBE-461C-A7EC-D16A1879EF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5ADDB3-9BBE-461C-A7EC-D16A1879EF78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
