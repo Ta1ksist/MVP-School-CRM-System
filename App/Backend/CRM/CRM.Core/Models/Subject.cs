@@ -2,7 +2,7 @@ namespace CRM.Core.Models;
 
 public class Subject
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public string Name { get; set; }
     
     public ICollection<Teacher> Teachers { get; set; }

@@ -2,11 +2,12 @@ namespace CRM.Core.Models;
 
 public class Pupil
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Patronymic { get; set; }
     public DateOnly DateOfBirth { get; set; }
+    public Guid GradeId { get; set; } 
     public Grade Grade { get; set; }
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
@@ -15,13 +16,14 @@ public class Pupil
     public ICollection<Parent> Parents { get; set; }
 
     public Pupil(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
-        Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
+        Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Patronymic = patronymic;
         DateOfBirth = dateOfBirth;
+        GradeId = gradeId;
         Grade = grade;
         PhoneNumber = phoneNumber;
         Email = email;
@@ -30,7 +32,7 @@ public class Pupil
     }
 
     public static (Pupil pupil, string Error) Create(Guid id, string firstName, string lastName, string patronymic,
-        DateOnly dateOfBirth, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
+        DateOnly dateOfBirth, Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
     {
         string error = "";
         
@@ -42,7 +44,7 @@ public class Pupil
         if (string.IsNullOrEmpty(email)) error = "Строка почты не может быть пустой";
         if (string.IsNullOrEmpty(address)) error = "Строка адреса не может быть пустой";
 
-        var pupil = new Pupil(id, firstName, lastName, patronymic, dateOfBirth, grade, phoneNumber, email, address, parents);
+        var pupil = new Pupil(id, firstName, lastName, patronymic, dateOfBirth, gradeId, grade, phoneNumber, email, address, parents);
         
         return (pupil, error);
     }

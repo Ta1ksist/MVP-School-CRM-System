@@ -4,7 +4,7 @@ namespace CRM.Core.Models;
 
 public class Grade
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public string Name { get; set; }
     
     public ICollection<Pupil> Pupils { get; set; }

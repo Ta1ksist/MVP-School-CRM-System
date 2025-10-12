@@ -2,7 +2,7 @@ namespace CRM.Core.Models;
 
 public class Directorate
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Patronymic { get; set; }
@@ -28,8 +28,8 @@ public class Directorate
         Address = address;
     }
 
-    public static (Directorate directorate, string Error) Create(Guid id, string firstName, string lastName,
-        string patronymic, string photoPath, DateOnly dateOfBirth, string role, string phoneNumber, string email, string address)
+    public static (Directorate directorate, string Error) Create(Guid id, string firstName, string lastName,string patronymic,
+        DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address)
     {
         string error = "";
         

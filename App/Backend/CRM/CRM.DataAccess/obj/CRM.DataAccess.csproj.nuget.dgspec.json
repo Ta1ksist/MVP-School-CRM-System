@@ -1,0 +1,184 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.DataAccess/CRM.DataAccess.csproj": {}
+  },
+  "projects": {
+    "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/CRM.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/CRM.Core.csproj",
+        "projectName": "CRM.Core",
+        "projectPath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/CRM.Core.csproj",
+        "packagesPath": "/Users/izzatmelikov/.nuget/packages/",
+        "outputPath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/izzatmelikov/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[15.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Abstractions": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Analyzers": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.DataAccess/CRM.DataAccess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.DataAccess/CRM.DataAccess.csproj",
+        "projectName": "CRM.DataAccess",
+        "projectPath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.DataAccess/CRM.DataAccess.csproj",
+        "packagesPath": "/Users/izzatmelikov/.nuget/packages/",
+        "outputPath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.DataAccess/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/izzatmelikov/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/CRM.Core.csproj": {
+                "projectPath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/CRM.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[15.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Abstractions": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Analyzers": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

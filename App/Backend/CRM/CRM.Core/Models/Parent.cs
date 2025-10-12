@@ -4,7 +4,7 @@ namespace CRM.Core.Models;
 
 public class Parent
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Patronymic { get; set; }
@@ -18,7 +18,7 @@ public class Parent
     public Pupil Pupil { get; set; }
 
     public Parent(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
-        string role, string phoneNumber, string email, string address)
+        string role, string phoneNumber, string email, string address, Guid pupilId,Pupil pupil)
     {
         Id = id;
         FirstName = firstName;
@@ -29,10 +29,12 @@ public class Parent
         PhoneNumber = phoneNumber;
         Email = email;
         Address = address;
+        PupilId = pupilId;
+        Pupil = pupil;
     }
 
     public static (Parent parent, string Error) Create(Guid id, string firstName, string lastName, string patronymic,
-        DateOnly dateOfBirth, string role, string phoneNumber, string email, string address)
+        DateOnly dateOfBirth, string role, string phoneNumber, string email, string address, Guid pupilId,Pupil pupil)
     {
         string error = "";
         
@@ -44,7 +46,7 @@ public class Parent
         if (string.IsNullOrEmpty(email)) error = "Строка почты не может быть пустой";
         if (string.IsNullOrEmpty(address)) error = "Строка адреса не может быть пустой";
 
-        var parent = new Parent(id, firstName, lastName, patronymic, dateOfBirth, role, phoneNumber, email, address);
+        var parent = new Parent(id, firstName, lastName, patronymic, dateOfBirth, role, phoneNumber, email, address,  pupilId, pupil);
         
         return (parent, error);
     }
