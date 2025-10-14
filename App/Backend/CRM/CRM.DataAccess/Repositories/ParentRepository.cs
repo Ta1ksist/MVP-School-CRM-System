@@ -50,7 +50,7 @@ public class ParentRepository : IParentRepository
 
     public async Task<Guid> UpdateParent(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        string role, string phoneNumber, string email, string address, Guid pupilId, ICollection<Pupil> pupil)
+        string role, string phoneNumber, string email, string address, Guid pupilId, Pupil pupil)
     {
         var parentEntity = await _context.Parents
             .Include(g => g.Pupil)

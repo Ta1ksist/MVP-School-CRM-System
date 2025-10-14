@@ -12,6 +12,10 @@ public class User
 
     public Guid? DirectorateId { get; set; }
     public Directorate Directorate { get; set; }
+    
+    public bool IsAdmin => Role?.ToLower() == "admin";
+    public bool IsTeacher => Role?.ToLower() == "teacher";
+    public bool IsDirector => Role?.ToLower() == "director";
 
     public User(Guid id, string userName, string passwordHash, string role, Guid? teacherId, Teacher teacher,
         Guid? directorateId, Directorate directorate)

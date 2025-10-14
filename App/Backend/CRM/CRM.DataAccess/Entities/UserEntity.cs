@@ -5,7 +5,7 @@ namespace CRM.DataAccess.Entities;
 public class UserEntity : IdentityUser
 {
     public Guid Id { get; set; }
-    public string Username { get; set; }
+    public string UserName { get; set; }
     public string PasswordHash { get; set; }
     public string Role { get; set; } 
 

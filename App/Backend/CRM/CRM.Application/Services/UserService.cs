@@ -49,14 +49,15 @@ public class UserService : IUserService
         return await _userRepository.AddUser(user);
     }
     
-    public async Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role,
-        Guid? teacherId, Guid? directorateId)
+    public async Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role)
     {
-        return await _userRepository.UpdateUser(id, userName, passwordHash, role, teacherId, directorateId);
+        return await _userRepository.UpdateUser(id, userName, passwordHash, role);
     }
     
     public async Task<Guid> DeleteUser(Guid id)
     {
         return await _userRepository.DeleteUser(id);
     }
+    
+    
 }

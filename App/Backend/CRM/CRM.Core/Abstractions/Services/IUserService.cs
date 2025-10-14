@@ -10,7 +10,6 @@ public interface IUserService
     Task<User> GetUserDirectorateId(Guid directorId);
     Task<List<User>> GetAllUsers();
     Task<Guid> AddUser(User user);
-    Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role,
-        Guid? teacherId, Guid? directorateId);
+    Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role);
     Task<Guid> DeleteUser(Guid id);
 }

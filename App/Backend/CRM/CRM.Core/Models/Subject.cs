@@ -5,16 +5,16 @@ public class Subject
     public Guid Id { get; }
     public string Name { get; set; }
     
-    public ICollection<Teacher> Teachers { get; set; }
+    public Teacher Teachers { get; set; }
     
-    public Subject(Guid id, string name, ICollection<Teacher> teachers)
+    public Subject(Guid id, string name, Teacher teachers)
     {
         Id = id;
         Name = name;
         Teachers = teachers;
     }
 
-    public static (Subject subject, string Error) Create(Guid id, string name, ICollection<Teacher> teachers)
+    public static (Subject subject, string Error) Create(Guid id, string name, Teacher teachers)
     {
         string error = "";
 

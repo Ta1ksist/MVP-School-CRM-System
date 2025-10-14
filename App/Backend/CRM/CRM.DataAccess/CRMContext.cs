@@ -21,6 +21,18 @@ public class CRMContext : IdentityDbContext<UserEntity>
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
         modelBuilder.ApplyConfiguration(new TeacherConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        
+        var adminId = Guid.NewGuid();
+
+        var admin = new UserEntity
+        {
+            Id = adminId,
+            UserName = "admin",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin321"), // безопасно шифруем пароль
+            Role = "Admin"
+        };
+
+        modelBuilder.Entity<UserEntity>().HasData(admin);
     }
     
     public DbSet<DirectorateEntity> Directorates { get; set; }

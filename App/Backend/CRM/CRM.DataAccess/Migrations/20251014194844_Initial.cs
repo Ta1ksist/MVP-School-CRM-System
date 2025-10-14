@@ -142,12 +142,11 @@ namespace CRM.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Username = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
                     Role = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     TeacherId = table.Column<Guid>(type: "uuid", nullable: true),
                     DirectorateId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -319,6 +318,11 @@ namespace CRM.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DirectorateId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TeacherId", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "cff349cc-4a2e-438b-b47d-d5f31dbe5054", 0, "fb0edd96-5cf8-4d3a-9550-ef177b41bcc9", null, null, false, false, null, null, null, "$2a$11$ECgUm6.M9FpznIg4.OaPX.eUPEFpOeWBaw9qL3bXiM1mjyKdbvxZe", null, false, "Admin", "6c0a2fff-50fb-406d-85fb-2a9ca926fb54", null, false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

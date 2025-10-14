@@ -4,5 +4,5 @@ namespace CRM.API.Contracts.Requests;
 
 public record GradeRequest(
     string Name,
-    ICollection<Pupil> Pupils
+    Pupil Pupils
     );

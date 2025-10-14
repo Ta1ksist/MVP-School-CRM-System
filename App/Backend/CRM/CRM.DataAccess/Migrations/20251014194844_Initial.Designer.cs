@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.DataAccess.Migrations
 {
     [DbContext(typeof(CRMContext))]
-    [Migration("20251014134239_Initial")]
+    [Migration("20251014194844_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -305,12 +305,9 @@ namespace CRM.DataAccess.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -328,6 +325,22 @@ namespace CRM.DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cff349cc-4a2e-438b-b47d-d5f31dbe5054",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "fb0edd96-5cf8-4d3a-9550-ef177b41bcc9",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "$2a$11$ECgUm6.M9FpznIg4.OaPX.eUPEFpOeWBaw9qL3bXiM1mjyKdbvxZe",
+                            PhoneNumberConfirmed = false,
+                            Role = "Admin",
+                            SecurityStamp = "6c0a2fff-50fb-406d-85fb-2a9ca926fb54",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

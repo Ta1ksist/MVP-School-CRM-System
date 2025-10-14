@@ -4,7 +4,7 @@ namespace CRM.API.Contracts.Requests;
 
 public record UserRequest(
     string UserName,
-    string Password,
+    string PasswordHash,
     string Role,
     Guid? TeacherId,
     Teacher? Teacher,

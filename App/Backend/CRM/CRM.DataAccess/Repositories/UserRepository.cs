@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
         var userEntity = await _context.Users
             .Include(u => u.Teacher)
             .Include(u => u.Directorate)
-            .FirstOrDefaultAsync(u => u.Username == userName);
+            .FirstOrDefaultAsync(u => u.UserName == userName);
 
         if (userEntity == null) return null;
 
@@ -89,16 +89,13 @@ public class UserRepository : IUserRepository
         return userEntity.Id;
     }
     
-    public async Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role,
-        Guid? teacherId, Guid? directorateId)
+    public async Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role)
     {
         var userEntity = await _context.Users.Where(u => u.Id == id)
             .ExecuteUpdateAsync(s => s
-                .SetProperty(u => u.Username, userName)
+                .SetProperty(u => u.UserName, userName)
                 .SetProperty(u => u.PasswordHash, passwordHash)
-                .SetProperty(u => u.Role, role)
-                .SetProperty(u => u.TeacherId, teacherId)
-                .SetProperty(u => u.DirectorateId, directorateId));
+                .SetProperty(u => u.Role, role));
 
         return id;
     }

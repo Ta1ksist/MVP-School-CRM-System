@@ -6,7 +6,7 @@ public class DataSeeder
 {
     public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
     {
-        var roles = new[] { "Teacher", "Director" };
+        var roles = new[] { "Teacher", "Director", "Admin" };
 
         foreach (var role in roles)
         {

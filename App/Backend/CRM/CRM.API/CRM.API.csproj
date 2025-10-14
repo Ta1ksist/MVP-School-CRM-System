@@ -41,10 +41,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CRM.Application\CRM.Application.csproj" />
       <ProjectReference Include="..\CRM.Core\CRM.Core.csproj" />
       <ProjectReference Include="..\CRM.DataAccess\CRM.DataAccess.csproj" />

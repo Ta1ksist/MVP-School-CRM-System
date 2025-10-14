@@ -38,6 +38,7 @@ public class AuthService : IAuthService
     {
         var existingUser = await _userRepository.GetUserByUsername(dto.UserName);
         if (existingUser != null) throw new InvalidOperationException("Пользователь с таким именем уже существует");
+        // if (dto.Role != "Admin") throw new InvalidOperationException("Доступ запрещён");
 
         Teacher teacher = null;
         Directorate director = null;
