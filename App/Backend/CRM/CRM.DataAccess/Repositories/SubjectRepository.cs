@@ -17,6 +17,16 @@ public class SubjectRepository : ISubjectRepository
         _mapper = mapper;
     }
 
+    public async Task<Subject> GetSubjectByName(string name)
+    {
+        var subjectEntity = await _context.Subjects
+            .Where(s => s.Name == name)
+            .FirstOrDefaultAsync();
+        var subject = _mapper.Map<SubjectEntity, Subject>(subjectEntity);
+        
+        return subject;
+    }
+    
     public async Task<List<Subject>> GetAllSubjects()
     {
         var subjectsEntity = await _context.Subjects

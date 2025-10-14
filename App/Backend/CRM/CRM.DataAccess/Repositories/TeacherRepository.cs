@@ -1,11 +1,12 @@
 using AutoMapper;
+using CRM.Core.Abstractions.Repositories;
 using CRM.Core.Models;
 using CRM.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.DataAccess.Repositories;
 
-public class TeacherRepository
+public class TeacherRepository : ITeacherRepository
 {
     private readonly CRMContext _context;
     private readonly IMapper _mapper;
@@ -15,11 +16,33 @@ public class TeacherRepository
         _context = context;
         _mapper = mapper;
     }
+    
+    public async Task<Teacher> GetTeacherById(Guid id)
+    {
+        var teacherEntity = await _context.Teachers
+            .Include(t => t.Subjects)
+            .Include(t => t.User)
+            .Where(t => t.Id == id).FirstOrDefaultAsync();
+        var teacher = _mapper.Map<Teacher>(teacherEntity);
 
+        return teacher;
+    }
+    
+    public async Task<Teacher> GetTeacherByName(string firstName, string lastName)
+    {
+        var teacherEntity = await _context.Teachers
+            .Where(t => t.FirstName == firstName && t.LastName == lastName)
+            .FirstOrDefaultAsync();
+        var teacher = _mapper.Map<Teacher>(teacherEntity);
+        
+        return teacher;
+    }
+    
     public async Task<List<Teacher>> GetAllTeachers()
     {
         var teacherEntity = await _context.Teachers
             .Include(t => t.Subjects)
+            .Include(t => t.User)
             .AsNoTracking()
             .ToListAsync();
         
@@ -39,7 +62,7 @@ public class TeacherRepository
 
     public async Task<Guid> UpdateTeacher(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects)
+        string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects, Guid userId)
     {
         var teacherEntity = await _context.Teachers
             .Include(t => t.Subjects)
@@ -56,6 +79,7 @@ public class TeacherRepository
         teacherEntity.PhoneNumber = phoneNumber;
         teacherEntity.Email = email;
         teacherEntity.Address = address;
+        teacherEntity.UserId = teacherEntity.UserId;
 
         _context.Subjects.RemoveRange(teacherEntity.Subjects);
 

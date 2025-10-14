@@ -14,6 +14,8 @@ public class Pupil
     public string Address { get; set; }
     
     public ICollection<Parent> Parents { get; set; }
+    
+    public string FullName => $"{LastName} {FirstName} {Patronymic}";
 
     public Pupil(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
         Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)

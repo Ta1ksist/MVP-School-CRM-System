@@ -1,0 +1,15 @@
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/bin/Debug/net9.0/CRM.Core.deps.json
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/bin/Debug/net9.0/CRM.Core.runtimeconfig.json
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/bin/Debug/net9.0/CRM.Core.dll
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/bin/Debug/net9.0/CRM.Core.pdb
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.csproj.AssemblyReference.cache
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.AssemblyInfoInputs.cache
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.AssemblyInfo.cs
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.csproj.CoreCompileInputs.cache
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.sourcelink.json
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.dll
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/refint/CRM.Core.dll
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.pdb
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/CRM.Core.genruntimeconfig.cache
+/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Core/obj/Debug/net9.0/ref/CRM.Core.dll

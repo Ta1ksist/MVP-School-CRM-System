@@ -14,5 +14,6 @@ public class MappingProfile : Profile
         CreateMap<PupilEntity, Pupil>();
         CreateMap<SubjectEntity, Subject>();
         CreateMap<TeacherEntity, Teacher>();
+        CreateMap<UserEntity, User>();
     }
 }

@@ -1,0 +1,17 @@
+using Microsoft.AspNetCore.Identity;
+
+namespace CRM.DataAccess.Entities;
+
+public class UserEntity : IdentityUser
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; }
+    public string PasswordHash { get; set; }
+    public string Role { get; set; } 
+
+    public Guid? TeacherId { get; set; }
+    public TeacherEntity Teacher { get; set; }
+
+    public Guid? DirectorateId { get; set; }
+    public DirectorateEntity Directorate { get; set; }
+}

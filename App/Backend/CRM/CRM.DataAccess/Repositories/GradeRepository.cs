@@ -17,6 +17,16 @@ public class GradeRepository : IGradeRepository
         _mapper = mapper;
     }
 
+    public async Task<Grade> GetGradeByName(string name)
+    {
+        var gradeEntity = await _context.Grades
+            .Where(g => g.Name == name)
+            .FirstOrDefaultAsync();
+        var grade = _mapper.Map<Grade>(gradeEntity);
+        
+        return grade;
+    }
+    
     public async Task<List<Grade>> GetAllGrades()
     {
         var gradeEntity = await _context.Grades

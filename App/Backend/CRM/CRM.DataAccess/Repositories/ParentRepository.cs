@@ -17,6 +17,16 @@ public class ParentRepository : IParentRepository
         _mapper = mapper;
     }
 
+    public async Task<Parent> GetParentByName(string firstName, string lastName)
+    {
+        var parentEntity = await _context.Parents
+            .Where(p => p.FirstName == firstName && p.LastName == lastName)
+            .FirstOrDefaultAsync();
+        var parent = _mapper.Map<Parent>(parentEntity);
+        
+        return parent;
+    }
+    
     public async Task<List<Parent>> GetAllParents()
     {
         var parentEntity = await _context.Parents

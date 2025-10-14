@@ -4,6 +4,7 @@ namespace CRM.Core.Abstractions.Repositories;
 
 public interface IParentRepository
 {
+    Task<Parent> GetParentByName(string firstName, string lastName);
     Task<List<Parent>> GetAllParents();
     Task<Guid> AddParent(Parent parent);
 

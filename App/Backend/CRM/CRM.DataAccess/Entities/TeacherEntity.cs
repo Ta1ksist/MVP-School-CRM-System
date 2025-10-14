@@ -13,4 +13,7 @@ public class TeacherEntity
     public string Address { get; set; }
 
     public ICollection<SubjectEntity> Subjects { get; set; }
+    
+    public UserEntity User { get; set; }
+    public Guid UserId { get; set; }
 }

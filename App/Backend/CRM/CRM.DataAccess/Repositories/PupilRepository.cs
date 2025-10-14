@@ -17,6 +17,16 @@ public class PupilRepository  : IPupilRepository
         _mapper = mapper;
     }
 
+    public async Task<Pupil> GetPupilByName(string firstName, string lastName)
+    {
+        var pupilEntity = await _context.Pupils
+            .Where(p => p.FirstName == firstName && p.LastName == lastName)
+            .FirstOrDefaultAsync();
+        var pupil = _mapper.Map<Pupil>(pupilEntity);
+        
+        return pupil;
+    }
+    
     public async Task<List<Pupil>> GetAllPupils()
     {
         var pupilEntity = await _context.Pupils

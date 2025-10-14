@@ -12,9 +12,14 @@ public class Directorate
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
     public string Address { get; set; }
+    
+    public User User { get; set; }
+    public Guid UserId { get; set; }
+    
+    public string FullName => $"{LastName} {FirstName} {Patronymic}";
 
     public Directorate(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
-        string photoPath, string role, string phoneNumber, string email, string address)
+        string photoPath, string role, string phoneNumber, string email, string address, User user, Guid userId)
     {
         Id = id;
         FirstName = firstName;
@@ -26,10 +31,12 @@ public class Directorate
         PhoneNumber = phoneNumber;
         Email = email;
         Address = address;
+        User = user;
+        UserId = userId;
     }
 
     public static (Directorate directorate, string Error) Create(Guid id, string firstName, string lastName,string patronymic,
-        DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address)
+        DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address, User user, Guid userId)
     {
         string error = "";
         
@@ -43,7 +50,7 @@ public class Directorate
         if (string.IsNullOrEmpty(address)) error = "Строка адреса не может быть пустой";
 
         var directorate = new Directorate(id, firstName, lastName, patronymic, dateOfBirth, photoPath, role, phoneNumber, email,
-            address);
+            address, user, userId);
         
         return (directorate, error);
     }

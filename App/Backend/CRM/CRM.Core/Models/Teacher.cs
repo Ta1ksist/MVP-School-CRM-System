@@ -13,9 +13,14 @@ public class Teacher
     public string Address { get; set; }
 
     public ICollection<Subject> Subjects { get; set; }
+    
+    public User User { get; set; }
+    public Guid UserId { get; set; }
+    
+    public string FullName => $"{LastName} {FirstName} {Patronymic}";
 
     public Teacher(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
-        string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects)
+        string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects, User user, Guid userId)
     {
         Id = id;
         FirstName = firstName;
@@ -27,11 +32,13 @@ public class Teacher
         Email = email;
         Address = address;
         Subjects = subjects;
+        User = user;
+        UserId = userId;
     }
 
     public static (Teacher teacher, string Error) Create(Guid id, string firstName, string lastName,
         string patronymic, string photoPath, DateOnly dateOfBirth, string phoneNumber, string email,
-        string address, ICollection<Subject> subjects)
+        string address, ICollection<Subject> subjects, User user, Guid userId)
     {
         string error = "";
 
@@ -44,7 +51,7 @@ public class Teacher
         if (string.IsNullOrEmpty(address)) error = "Строка адреса не может быть пустой";
 
         var teacher = new Teacher(id, firstName, lastName, patronymic, dateOfBirth, photoPath, phoneNumber, email,
-            address, subjects);
+            address, subjects, user, userId);
 
         return (teacher, error);
     }

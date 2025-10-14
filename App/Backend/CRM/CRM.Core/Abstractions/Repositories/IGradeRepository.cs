@@ -4,6 +4,7 @@ namespace CRM.Core.Abstractions.Repositories;
 
 public interface IGradeRepository
 {
+    Task<Grade> GetGradeByName(string name);
     Task<List<Grade>> GetAllGrades();
     Task<Guid> AddGrade(Grade grade);
     Task<Guid> UpdateGrade(Guid id, string name, Pupil pupil);

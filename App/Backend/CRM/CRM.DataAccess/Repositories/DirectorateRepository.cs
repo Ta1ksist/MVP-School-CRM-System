@@ -17,9 +17,33 @@ public class DirectorateRepository : IDirectorateRepository
         _mapper = mapper;
     }
 
+    public async Task<Directorate> GetDirectorateById(Guid id)
+    {
+        var directorateEntity = await _context.Directorates
+            .Include(d => d.User)
+            .Where(d => d.Id == id).FirstOrDefaultAsync();
+        var directorate = _mapper.Map<Directorate>(directorateEntity);
+        
+        return directorate;
+    }
+    
+    public async Task<Directorate> GetDirectorateByName(string firstName, string lastName)
+    {
+        var directorateEntity = await _context.Directorates
+            .Include(t => t.User)
+            .Where(d => d.FirstName == firstName && d.LastName == lastName)
+            .FirstOrDefaultAsync();
+        var directorate = _mapper.Map<Directorate>(directorateEntity);
+        
+        return directorate;
+    }
+    
     public async Task<List<Directorate>> GetAllDirectorates()
     {
-        var directoratesEntity = await _context.Directorates.AsNoTracking().ToListAsync();
+        var directoratesEntity = await _context.Directorates
+            .Include(t => t.User)
+            .AsNoTracking()
+            .ToListAsync();
         var directorates = _mapper.Map<List<Directorate>>(directoratesEntity);
         
         return directorates;
@@ -36,7 +60,7 @@ public class DirectorateRepository : IDirectorateRepository
     }
 
     public async Task<Guid> UpdateDirectorate(Guid id, string firstName, string lastName, string patronymic,
-        DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address)
+        DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address, Guid userId)
     {
         var directorateEntity = await _context.Directorates.Where(d => d.Id == id)
             .ExecuteUpdateAsync(s => s
@@ -48,7 +72,8 @@ public class DirectorateRepository : IDirectorateRepository
                 .SetProperty(d => d.Role, role)
                 .SetProperty(d => d.PhoneNumber, phoneNumber)
                 .SetProperty(d => d.Email, email)
-                .SetProperty(d => d.Address, address));
+                .SetProperty(d => d.Address, address)
+                .SetProperty(d => d.UserId, userId));
 
         return id;
     }

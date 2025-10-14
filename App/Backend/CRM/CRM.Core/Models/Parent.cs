@@ -16,6 +16,8 @@ public class Parent
     
     public Guid PupilId { get; set; }
     public Pupil Pupil { get; set; }
+    
+    public string FullName => $"{LastName} {FirstName} {Patronymic}";
 
     public Parent(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
         string role, string phoneNumber, string email, string address, Guid pupilId,Pupil pupil)

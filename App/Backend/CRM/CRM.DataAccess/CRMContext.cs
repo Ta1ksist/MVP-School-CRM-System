@@ -1,12 +1,13 @@
 using CRM.DataAccess.Configurations;
 using CRM.DataAccess.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.DataAccess;
 
-public class CRMContext : DbContext
+public class CRMContext : IdentityDbContext<UserEntity>
 {
-    public CRMContext(DbContextOptions options) : base(options)
+    public CRMContext(DbContextOptions<CRMContext> options) : base(options)
     {
     }
 
@@ -19,6 +20,7 @@ public class CRMContext : DbContext
         modelBuilder.ApplyConfiguration(new PupilConfiguration());
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
         modelBuilder.ApplyConfiguration(new TeacherConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
     
     public DbSet<DirectorateEntity> Directorates { get; set; }
