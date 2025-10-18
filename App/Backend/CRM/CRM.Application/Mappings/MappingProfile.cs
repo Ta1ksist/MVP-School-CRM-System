@@ -15,5 +15,10 @@ public class MappingProfile : Profile
         CreateMap<SubjectEntity, Subject>();
         CreateMap<TeacherEntity, Teacher>();
         CreateMap<UserEntity, User>();
+        CreateMap<ClubEntity, Club>();
+        CreateMap<ClubEnrollmentEntity, ClubEnrollment>();
+        CreateMap<ClubPaymentEntity, ClubPayment>();
+        CreateMap<EventEntity, Event>();
+        CreateMap<NewsEntity, News>();
     }
 }

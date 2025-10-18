@@ -1,7 +1,9 @@
+using System.Globalization;
 using System.Text;
 using CRM.API.Data;
 using CRM.Application.Mappings;
 using CRM.Application.Services;
+using CRM.Application.Settings;
 using CRM.Core.Abstractions.Auth;
 using CRM.Core.Abstractions.Repositories;
 using CRM.Core.Abstractions.Services;
@@ -31,6 +33,12 @@ builder.Services.AddScoped<IPupilRepository, PupilRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClubRepository, СlubRepository>();
+builder.Services.AddScoped<IClubEnrollmentRepository, ClubEnrollmentRepository>();
+builder.Services.AddScoped<IClubPaymentRepository, ClubPaymentRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
+
 builder.Services.AddScoped<IDirectorateService, DirectorateService>();
 builder.Services.AddScoped<IGradeService, GradeService>();
 builder.Services.AddScoped<IParentService, ParentService>();
@@ -38,9 +46,19 @@ builder.Services.AddScoped<IPupilService, PupilService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IClubService, ClubService>();
+builder.Services.AddScoped<IClubEnrollmentService, ClubEnrollmentService>();
+builder.Services.AddScoped<IClubPaymentService, ClubPaymentService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -55,6 +73,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",builder => 
@@ -62,9 +81,11 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<CRMContext>()
     .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 

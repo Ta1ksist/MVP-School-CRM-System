@@ -55,9 +55,7 @@ public class UserService : IUserService
     }
     
     public async Task<Guid> DeleteUser(Guid id)
-    {
+    { 
         return await _userRepository.DeleteUser(id);
     }
-    
-    
 }

@@ -12,8 +12,8 @@ public class PupilConfiguration : IEntityTypeConfiguration<PupilEntity>
         builder.Property(p => p.FirstName).IsRequired();
         builder.Property(p => p.LastName).IsRequired();
         builder.Property(p => p.DateOfBirth)
-            .IsRequired()
-            .HasColumnType("date");
+            .HasColumnType("date")
+            .IsRequired();
         builder.Property(p => p.PhoneNumber).IsRequired();
         builder.Property(p => p.Email).IsRequired();
         builder.Property(p => p.Address).IsRequired();

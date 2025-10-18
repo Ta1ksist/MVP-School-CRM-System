@@ -11,7 +11,9 @@ public class DirectorateConfiguration : IEntityTypeConfiguration<DirectorateEnti
         builder.HasKey(d => d.Id);
         builder.Property(d => d.FirstName).IsRequired();
         builder.Property(d => d.LastName).IsRequired();
-        builder.Property(d => d.DateOfBirth).IsRequired().HasColumnType("date");
+        builder.Property(d => d.DateOfBirth)
+            .HasColumnType("date")
+            .IsRequired();
         builder.Property(d => d.PhotoPath).IsRequired();
         builder.Property(d => d.Role).IsRequired();
         builder.Property(d => d.PhoneNumber).IsRequired();

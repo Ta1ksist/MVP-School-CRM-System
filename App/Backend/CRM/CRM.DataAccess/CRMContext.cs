@@ -21,6 +21,11 @@ public class CRMContext : IdentityDbContext<UserEntity>
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
         modelBuilder.ApplyConfiguration(new TeacherConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new ClubConfiguration());
+        modelBuilder.ApplyConfiguration(new ClubEnrollmentCongiguration());
+        modelBuilder.ApplyConfiguration(new ClubPaymentConfiguration());
+        modelBuilder.ApplyConfiguration(new EventConfiguration());
+        modelBuilder.ApplyConfiguration(new NewsConfiguration());
         
         var adminId = Guid.NewGuid();
 
@@ -28,7 +33,7 @@ public class CRMContext : IdentityDbContext<UserEntity>
         {
             Id = adminId,
             UserName = "admin",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin321"), // безопасно шифруем пароль
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin321"),
             Role = "Admin"
         };
 
@@ -41,4 +46,9 @@ public class CRMContext : IdentityDbContext<UserEntity>
     public DbSet<PupilEntity> Pupils { get; set; }
     public DbSet<SubjectEntity> Subjects { get; set; }
     public DbSet<TeacherEntity> Teachers { get; set; }
+    public DbSet<ClubEntity> Clubs { get; set; }
+    public DbSet<ClubEnrollmentEntity> ClubEnrollments { get; set; }
+    public DbSet<ClubPaymentEntity> ClubPayment { get; set; }
+    public DbSet<EventEntity> Events { get; set; }
+    public DbSet<NewsEntity> News { get; set; }
 }

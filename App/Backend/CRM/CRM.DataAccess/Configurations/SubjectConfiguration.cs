@@ -10,5 +10,6 @@ public class SubjectConfiguration : IEntityTypeConfiguration<SubjectEntity>
     {
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Name).IsRequired();
+        builder.HasMany(s => s.Teachers);
     }
 }

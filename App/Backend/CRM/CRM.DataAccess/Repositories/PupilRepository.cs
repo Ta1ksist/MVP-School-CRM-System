@@ -57,8 +57,7 @@ public class PupilRepository  : IPupilRepository
             .Include(p => p.Grade)
             .FirstOrDefaultAsync(p => p.Id == id);
 
-        if (pupilEntity == null)
-            throw new Exception("Ученик не найден");
+        if (pupilEntity == null) throw new Exception("Ученик не найден");
 
         pupilEntity.FirstName = firstName;
         pupilEntity.LastName = lastName;
@@ -81,7 +80,8 @@ public class PupilRepository  : IPupilRepository
 
     public async Task<Guid> DeletePupil(Guid id)
     {
-        var pupilEntity = await _context.Pupils.Where(p => p.Id == id)
+        var pupilEntity = await _context.Pupils
+            .Where(p => p.Id == id)
             .ExecuteDeleteAsync();
         
         return id;

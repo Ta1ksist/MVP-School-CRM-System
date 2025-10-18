@@ -1,0 +1,12 @@
+using CRM.Core.Models;
+
+namespace CRM.Core.Abstractions.Repositories;
+
+public interface INewsRepository
+{
+    Task<News> GetNewsByTitle(string title);
+    Task<List<News>> GetAllNews();
+    Task<Guid> AddNews(News news);
+    Task<Guid> UpdateNews(Guid id, string title, string description, DateTime date, string photoPath);
+    Task<Guid> DeleteNews(Guid id);
+}

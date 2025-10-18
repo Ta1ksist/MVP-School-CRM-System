@@ -11,7 +11,9 @@ public class ParentConfiguration : IEntityTypeConfiguration<ParentEntity>
         builder.HasKey(p => p.Id);
         builder.Property(p => p.FirstName).IsRequired();
         builder.Property(p => p.LastName).IsRequired();
-        builder.Property(p => p.DateOfBirth).IsRequired().HasColumnType("date");
+        builder.Property(p => p.DateOfBirth)
+            .HasColumnType("date")
+            .IsRequired();
         builder.Property(p => p.Role).IsRequired();
         builder.Property(p => p.PhoneNumber).IsRequired();
         builder.Property(p => p.Email).IsRequired();

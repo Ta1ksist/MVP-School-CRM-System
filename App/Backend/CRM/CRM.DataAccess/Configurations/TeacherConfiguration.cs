@@ -11,7 +11,9 @@ public class TeacherConfiguration : IEntityTypeConfiguration<TeacherEntity>
         builder.HasKey(t => t.Id);
         builder.Property(t => t.FirstName).IsRequired();
         builder.Property(t => t.LastName).IsRequired();
-        builder.Property(t => t.DateOfBirth).IsRequired().HasColumnType("date");
+        builder.Property(t => t.DateOfBirth)
+            .HasColumnType("date")
+            .IsRequired();
         builder.Property(t => t.PhotoPath).IsRequired();
         builder.Property(t => t.PhoneNumber).IsRequired();
         builder.Property(t => t.Email).IsRequired();
