@@ -26,6 +26,11 @@ public class ParentService : IParentService
         return await _repository.GetAllParents();
     }
 
+    public async Task<List<string>> GetEmailsAllParents()
+    {
+        return await _repository.GetEmailsAllParents();
+    }
+    
     public async Task<Guid> AddParent(Parent parent)
     {
         return await _repository.AddParent(parent);

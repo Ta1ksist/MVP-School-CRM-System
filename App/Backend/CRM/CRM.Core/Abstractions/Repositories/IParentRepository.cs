@@ -6,6 +6,7 @@ public interface IParentRepository
 {
     Task<Parent> GetParentByName(string firstName, string lastName);
     Task<List<Parent>> GetAllParents();
+    Task<List<string>> GetEmailsAllParents();
     Task<Guid> AddParent(Parent parent);
 
     Task<Guid> UpdateParent(Guid id, string firstName, string lastName, string patronymic,

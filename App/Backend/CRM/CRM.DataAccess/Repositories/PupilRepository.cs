@@ -38,6 +38,18 @@ public class PupilRepository  : IPupilRepository
         return pupils;
     }
 
+    public async Task<List<string>> GetEmailsAllPupils()
+    {
+        var pupil = await _context.Pupils
+            .Include(p => p.Parents)
+            .Where(p => !string.IsNullOrEmpty(p.Email))
+            .AsNoTracking()
+            .Select(p => p.Email)
+            .ToListAsync();
+        var emails = _mapper.Map<List<string>>(pupil);
+        return emails;
+    }
+    
     public async Task<Guid> AddPupil(Pupil pupil)
     {
         var pupilEntity = _mapper.Map<PupilEntity>(pupil);

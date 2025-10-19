@@ -43,6 +43,7 @@ public class TeacherRepository : ITeacherRepository
         var teacherEntity = await _context.Teachers
             .Include(t => t.Subjects)
             .Include(t => t.User)
+            .Where(t => !string.IsNullOrEmpty(t.Email))
             .AsNoTracking()
             .ToListAsync();
         
@@ -50,6 +51,18 @@ public class TeacherRepository : ITeacherRepository
         return teachers;
     }
 
+    public async Task<List<string>> GetEmailsAllTeachers()
+    {
+        var teachersEmailsEntity = await _context.Teachers
+            .Include(t => t.Subjects)
+            .Include(t => t.User)
+            .AsNoTracking()
+            .Select(t => t.Email)
+            .ToListAsync();
+        var teachersEmails = _mapper.Map<List<string>>(teachersEmailsEntity);
+        return teachersEmails;
+    }
+    
     public async Task<Guid> AddTeacher(Teacher teacher)
     {
         var teacherEntity = _mapper.Map<TeacherEntity>(teacher);

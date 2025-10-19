@@ -26,6 +26,8 @@ public class CRMContext : IdentityDbContext<UserEntity>
         modelBuilder.ApplyConfiguration(new ClubPaymentConfiguration());
         modelBuilder.ApplyConfiguration(new EventConfiguration());
         modelBuilder.ApplyConfiguration(new NewsConfiguration());
+        modelBuilder.ApplyConfiguration(new ChatRoomConfiguration());
+        modelBuilder.ApplyConfiguration(new ChatMessageConfiguration());
         
         var adminId = Guid.NewGuid();
 
@@ -51,4 +53,6 @@ public class CRMContext : IdentityDbContext<UserEntity>
     public DbSet<ClubPaymentEntity> ClubPayment { get; set; }
     public DbSet<EventEntity> Events { get; set; }
     public DbSet<NewsEntity> News { get; set; }
+    public DbSet<ChatRoomEntity> ChatRooms { get; set; }
+    public DbSet<ChatMessageEntity> ChatMessages { get; set; }
 }

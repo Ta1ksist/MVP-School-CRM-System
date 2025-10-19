@@ -18,6 +18,15 @@ public class NewsRepository : INewsRepository
         _mapper = mapper;
     }
 
+    public async Task<News> GetNewsById(Guid id)
+    {
+        var newsEntity = await _context.News
+            .Where(n => n.Id == id)
+            .FirstOrDefaultAsync();
+        var news = _mapper.Map<News>(newsEntity);
+        return news;
+    }
+    
     public async Task<News> GetNewsByTitle(string title)
     {
         var newsEntity = await _context.News

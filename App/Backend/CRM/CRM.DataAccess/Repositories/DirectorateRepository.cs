@@ -49,6 +49,18 @@ public class DirectorateRepository : IDirectorateRepository
         return directorates;
     }
 
+    public async Task<List<string>> GetEmailsAllDirectorates()
+    {
+        var directoratesEntity = await _context.Directorates
+            .Include(t => t.User)
+            .AsNoTracking()
+            .Where(d => !string.IsNullOrEmpty(d.Email))
+            .Select(d => d.Email)
+            .ToListAsync();
+        var directorates = _mapper.Map<List<string>>(directoratesEntity);
+        return directorates;
+    }
+    
     public async Task<Guid> AddDirectorate(Directorate directorate)
     {
         var directorateEntity = _mapper.Map<DirectorateEntity>(directorate);

@@ -52,6 +52,12 @@ public class ClubEnrollmentService : IClubEnrollmentService
             TotalPaidAmount = totalPaid
         };
     }
+
+    public async Task<List<ClubEnrollment>> GetAllWithPayments()
+    {
+        return await _clubEnrollmentRepository.GetAllWithPayments();
+    }
+    
     
     public async Task<Guid> AddClubEnrollment(ClubEnrollment enrollment)
     {

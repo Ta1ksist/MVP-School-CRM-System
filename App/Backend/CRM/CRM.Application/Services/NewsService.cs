@@ -13,6 +13,12 @@ public class NewsService : INewsService
         _newsRepository = newsRepository;
     }
 
+    public async Task<News> GetNewsById(Guid id)
+    {
+        return await _newsRepository.GetNewsById(id);
+    }
+    
+    
     public async Task<News> GetNewsByTitle(string title)
     {
         return await _newsRepository.GetNewsByTitle(title);

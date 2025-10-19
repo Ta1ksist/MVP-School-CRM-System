@@ -6,6 +6,7 @@ public interface ITeacherService
 {
     Task<Teacher> GetTeacherByName(string firstName, string lastName);
     Task<List<Teacher>> GetAllTeachers();
+    Task<List<string>> GetEmailsAllTeachers();
     Task<Guid> AddTeacher(Teacher teacher);
     Task<Guid> UpdateTeacher(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,

@@ -4,6 +4,7 @@ namespace CRM.Core.Abstractions.Repositories;
 
 public interface INewsRepository
 {
+    Task<News> GetNewsById(Guid id);
     Task<News> GetNewsByTitle(string title);
     Task<List<News>> GetAllNews();
     Task<Guid> AddNews(News news);

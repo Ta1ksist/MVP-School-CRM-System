@@ -39,6 +39,16 @@ public class ClubEnrollmentRepository  : IClubEnrollmentRepository
         return clubEnrollments;
     }
 
+    public async Task<List<ClubEnrollment>> GetAllWithPayments()
+    {
+        var clubEnrollmentEntity = await _context.ClubEnrollments
+            .Include(e => e.Club)
+            .Include(e => e.Payments)
+            .ToListAsync();
+        var clubEnrollment =  _mapper.Map<List<ClubEnrollment>>(clubEnrollmentEntity);
+        return clubEnrollment;
+    }
+    
     public async Task<Guid> AddClubEnrollment(ClubEnrollment enrollment)
     {
         var clubEnrollmentEntity = _mapper.Map<ClubEnrollmentEntity>(enrollment);

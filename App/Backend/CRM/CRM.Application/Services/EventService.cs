@@ -13,6 +13,11 @@ public class EventService : IEventService
         _eventRepository = eventRepository;
     }
 
+    public async Task<Event> GetEventById(Guid id)
+    {
+        return await _eventRepository.GetEventById(id);
+    }
+    
     public async Task<Event> GetEventByName(string name)
     {
         return await _eventRepository.GetEventByName(name);

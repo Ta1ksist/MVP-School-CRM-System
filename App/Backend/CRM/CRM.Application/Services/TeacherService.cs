@@ -26,6 +26,11 @@ public class TeacherService : ITeacherService
         return await _repository.GetAllTeachers();
     }
 
+    public async Task<List<string>> GetEmailsAllTeachers()
+    {
+        return await _repository.GetEmailsAllTeachers();
+    }
+    
     public async Task<Guid> AddTeacher(Teacher teacher)
     {
         return await _repository.AddTeacher(teacher);

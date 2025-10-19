@@ -7,6 +7,7 @@ public interface IDirectorateRepository
     Task<Directorate> GetDirectorateById(Guid id);
     Task<Directorate> GetDirectorateByName(string firstName, string lastName);
     Task<List<Directorate>> GetAllDirectorates();
+    Task<List<string>> GetEmailsAllDirectorates();
     Task<Guid> AddDirectorate(Directorate directorate);
     Task<Guid> UpdateDirectorate(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address, Guid userId);

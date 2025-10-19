@@ -17,6 +17,17 @@ public class EventRepository : IEventRepository
         _mapper = mapper;
     }
 
+    public async Task<Event> GetEventById(Guid id)
+    {
+        var eventEntity = await _context.Events
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
+        if (eventEntity == null) throw new InvalidOperationException("Событие/мероприятие не нашлось");
+        
+        var eevent = _mapper.Map<Event>(eventEntity);
+        return eevent;
+    }
+    
     public async Task<Event> GetEventByName(string name)
     {
         var eventEntity = await _context.Events

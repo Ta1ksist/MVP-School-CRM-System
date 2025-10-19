@@ -26,6 +26,11 @@ public class PupilService : IPupilService
         return await _repository.GetAllPupils();
     }
 
+    public async Task<List<string>> GetEmailsAllPupils()
+    {
+        return await _repository.GetEmailsAllPupils();
+    }
+
     public async Task<Guid> AddPupil(Pupil pupil)
     {
         return await _repository.AddPupil(pupil);

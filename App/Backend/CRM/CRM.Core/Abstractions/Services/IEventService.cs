@@ -4,6 +4,7 @@ namespace CRM.Core.Abstractions.Services;
 
 public interface IEventService
 {
+    Task<Event> GetEventById(Guid id);
     Task<Event> GetEventByName(string name);
     Task<List<Event>> GetAllEvents();
     Task<Guid> AddEvent(Event eevent);

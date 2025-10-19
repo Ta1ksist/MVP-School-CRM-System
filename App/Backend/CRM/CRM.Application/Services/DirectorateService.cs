@@ -26,6 +26,11 @@ public class DirectorateService : IDirectorateService
         return await _repository.GetAllDirectorates();
     }
 
+    public async Task<List<string>> GetEmailsAllDirectorates()
+    {
+        return await _repository.GetEmailsAllDirectorates();
+    }
+    
     public async Task<Guid> AddDirectorate(Directorate directorate)
     {
         return await _repository.AddDirectorate(directorate);

@@ -38,6 +38,19 @@ public class ParentRepository : IParentRepository
         return parent;
     }
 
+    public async Task<List<string>> GetEmailsAllParents()
+    {
+        var parentEntity = await _context.Parents
+            .Include(t => t.Pupil)
+            .Where(p => !string.IsNullOrEmpty(p.Email))
+            .AsNoTracking()
+            .Select(p => p.Email)
+            .ToListAsync();
+        
+        var emails = _mapper.Map<List<string>>(parentEntity);
+        return emails;
+    }
+    
     public async Task<Guid> AddParent(Parent parent)
     {
         var parentEntity = _mapper.Map<ParentEntity>(parent);
