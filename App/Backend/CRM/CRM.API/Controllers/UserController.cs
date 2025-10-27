@@ -23,9 +23,7 @@ public class UserController : Controller
     public async Task<ActionResult<User>> GetUserById(Guid id)
     {
         var user = await _userService.GetUserById(id);
-        
         if (user == null) return NotFound();
-        
         var response = new UserResponse(
             user.Id,
             user.UserName,
@@ -36,6 +34,7 @@ public class UserController : Controller
             user.DirectorateId,
             user.Directorate
         );
+        
         return Ok(response);
     }
     
@@ -43,9 +42,7 @@ public class UserController : Controller
     public async Task<ActionResult<User>> GetUserByUserName(string userName)
     {
         var user = await _userService.GetUserByUserName(userName);
-        
         if (user == null) return NotFound();
-        
         var response = new UserResponse(
             user.Id,
             user.UserName,
@@ -56,6 +53,7 @@ public class UserController : Controller
             user.DirectorateId,
             user.Directorate
         );
+        
         return Ok(response);
     }
 
@@ -63,9 +61,7 @@ public class UserController : Controller
     public async Task<ActionResult<User>> GetUserTeacherId(Guid teacherId)
     {
         var user = await _userService.GetUserTeacherId(teacherId);
-        
         if (user == null) return NotFound();
-        
         var response = new UserResponse(
             user.Id,
             user.UserName,
@@ -76,6 +72,7 @@ public class UserController : Controller
             user.DirectorateId,
             user.Directorate
         );
+        
         return Ok(response);
     }
     
@@ -83,9 +80,7 @@ public class UserController : Controller
     public async Task<ActionResult<User>> GetUserDirectorateId(Guid directorId)
     {
         var user = await _userService.GetUserDirectorateId(directorId);
-        
         if (user == null) return NotFound();
-        
         var response = new UserResponse(
             user.Id,
             user.UserName,
@@ -96,6 +91,7 @@ public class UserController : Controller
             user.DirectorateId,
             user.Directorate
         );
+        
         return Ok(response);
     }
     
@@ -121,16 +117,17 @@ public class UserController : Controller
             request.TeacherId,
             request.Teacher,
             request.DirectorateId,
-            request.Directorate);
+            request.Directorate
+            );
         
         await _userService.AddUser(user);
         return Ok(user);
     }
     
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdateUser(Guid id,[FromBody] UserRequest request)
+    public async Task<ActionResult<Guid>> UpdateUser(Guid id, string userName, string passwordHash, string role)
     {
-        await _userService.UpdateUser(id, request.UserName, request.PasswordHash, request.Role);
+        await _userService.UpdateUser(id, userName, passwordHash, role);
         return Ok();
     }
 

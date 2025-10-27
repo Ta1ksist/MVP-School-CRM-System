@@ -10,5 +10,5 @@ public interface IClubEnrollmentService
     Task<PupilDebDTO> GetPupilDebt(Guid pupilId);
     Task<List<ClubEnrollment>> GetAllWithPayments();
     Task<Guid> AddClubEnrollment(ClubEnrollment enrollment);
-    Task<Guid> UpdateClubEnrollment(ClubEnrollment enrollment);
+    Task<Guid> UpdateClubEnrollment(Guid id, Guid clubId, Club club, Guid pupilId, bool isActive);
 }

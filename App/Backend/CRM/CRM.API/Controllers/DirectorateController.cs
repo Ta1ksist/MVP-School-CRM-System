@@ -23,9 +23,7 @@ public class DirectorateController : ControllerBase
     public async Task<ActionResult<Directorate>> GetDirectorateByName(string firstName, string lastName)
     {
         var directorate = await _directorateService.GetDirectorateByName(firstName, lastName);
-        
         if (directorate == null) return NotFound();
-        
         var response = new DirectorateResponse(
             directorate.Id,
             directorate.FirstName,
@@ -40,6 +38,7 @@ public class DirectorateController : ControllerBase
             directorate.User,
             directorate.UserId
         );
+        
         return Ok(response);
     }
     
@@ -77,12 +76,11 @@ public class DirectorateController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdateDirectorate(Guid id, [FromBody] DirectorateRequest request)
+    public async Task<ActionResult<Guid>> UpdateDirectorate(Guid id, string firstName, string lastName, string patronymic,
+        DateOnly dateOfBirth, string photoPath, string role, string phoneNumber, string email, string address, Guid userId)
     {
-        await _directorateService.UpdateDirectorate(id, request.FirstName, request.LastName, request.Patronymic, 
-            request.DateOfBirth, request.PhotoPath, request.Role, request.PhoneNumber,  request.Email, request.Address,
-            request.UserId);
-        
+        await _directorateService.UpdateDirectorate(id, firstName, lastName, patronymic, dateOfBirth, photoPath,
+            role, phoneNumber, email, address, userId);
         return Ok();
     }
 

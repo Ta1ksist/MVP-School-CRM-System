@@ -2,6 +2,7 @@ using AutoMapper;
 using CRM.Core.Abstractions.Repositories;
 using CRM.Core.Models;
 using CRM.DataAccess.Entities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.DataAccess.Repositories;
@@ -59,21 +60,22 @@ public class ClubEnrollmentRepository  : IClubEnrollmentRepository
         return clubEnrollmentEntity.Id;
     }
 
-    public async Task<Guid> UpdateClubEnrollment(ClubEnrollment enrollment)
+    public async Task<Guid> UpdateClubEnrollment(Guid id, Guid clubId, Club club, Guid pupilId, bool isActive)
     {
-        var existing = await _context.ClubEnrollments.FindAsync(enrollment.Id);
-
-        if (existing == null) throw new Exception("Запись ученика не найдена");
-
-        existing.ClubId = enrollment.ClubId;
-        existing.PupilId = enrollment.PupilId;
-        existing.EnrollmentDate = enrollment.EnrollmentDate;
-        existing.IsActive = enrollment.IsActive;
-
-
-        _context.ClubEnrollments.Update(existing);
-        await _context.SaveChangesAsync();
+        var clubEnrollmentEntity = await _context.ClubEnrollments
+            .Include(e => e.Payments)
+            .Include(e => e.Club)
+            .Where(c => c.Id == id)
+            .FirstOrDefaultAsync();
         
-        return existing.Id;
+        if (clubEnrollmentEntity == null) throw new Exception("Запись не найдена");
+        
+        clubEnrollmentEntity.Club = _mapper.Map<ClubEntity>(club);
+        clubEnrollmentEntity.ClubId = clubId;
+        clubEnrollmentEntity.PupilId = pupilId;
+        clubEnrollmentEntity.IsActive = isActive;
+        
+        await _context.SaveChangesAsync();
+        return clubEnrollmentEntity.Id;
     }
 }

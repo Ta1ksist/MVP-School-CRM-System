@@ -137,7 +137,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.IdentityModel.JsonWebTokens": {
               "target": "Package",
@@ -286,7 +286,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.IdentityModel.JsonWebTokens": {
               "target": "Package",
@@ -444,7 +444,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.IdentityModel.JsonWebTokens": {
               "target": "Package",
@@ -606,7 +606,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.IdentityModel.JsonWebTokens": {
               "target": "Package",

@@ -20,5 +20,7 @@ public class MappingProfile : Profile
         CreateMap<ClubPaymentEntity, ClubPayment>();
         CreateMap<EventEntity, Event>();
         CreateMap<NewsEntity, News>();
+        CreateMap<ChatRoomEntity, ChatRoom>();
+        CreateMap<ChatMessageEntity, ChatMessage>();
     }
 }

@@ -2,10 +2,12 @@ using CRM.API.Contracts.Requests;
 using CRM.API.Contracts.Responses;
 using CRM.Core.Abstractions.Services;
 using CRM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class SubjectController : ControllerBase
@@ -21,9 +23,7 @@ public class SubjectController : ControllerBase
     public async Task<ActionResult<Subject>> GetSubjectByName(string name)
     {
         var subject = await _subjectService.GetSubjectByName(name);
-        
         if (subject == null) return NotFound();
-        
         var response = new SubjectResponse(
             subject.Id,
             subject.Name,
@@ -57,9 +57,9 @@ public class SubjectController : ControllerBase
     }
     
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdateSubject(Guid id, [FromBody] SubjectRequest request)
+    public async Task<ActionResult<Guid>> UpdateSubject(Guid id, string name, Teacher teachers)
     {
-        await _subjectService.UpdateSubject(id, request.Name, request.Teachers);
+        await _subjectService.UpdateSubject(id, name, teachers);
         return Ok();
     }
 

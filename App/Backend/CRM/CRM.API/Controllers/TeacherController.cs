@@ -23,9 +23,7 @@ public class TeacherController : ControllerBase
     public async Task<ActionResult<Teacher>> GetTeacherByName(string firstName, string lastName)
     {
         var teacher = await _teacherService.GetTeacherByName(firstName, lastName);
-        
         if (teacher == null) return NotFound();
-
         var response = new TeacherResponse(
             teacher.Id,
             teacher.FirstName,
@@ -40,6 +38,7 @@ public class TeacherController : ControllerBase
             teacher.User,
             teacher.UserId
             );
+        
         return Ok(response);
     }
 
@@ -78,12 +77,12 @@ public class TeacherController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdateTeacher(Guid id, [FromBody] TeacherRequest request)
+    public async Task<ActionResult<Guid>> UpdateTeacher(Guid id, string firstName, string lastName, string patronymic,
+        DateOnly dateOfBirth,
+        string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects, Guid userId)
     {
-        await _teacherService.UpdateTeacher(id, request.FirstName, request.LastName, request.Patronymic,
-            request.DateOfBirth,
-            request.PhotoPath, request.PhoneNumber, request.Email, request.Address, request.Subjects, request.UserId);
-        
+        await _teacherService.UpdateTeacher(id, firstName, lastName, patronymic, dateOfBirth, 
+            photoPath, phoneNumber, email, address, subjects, userId);
         return Ok();
     }
 

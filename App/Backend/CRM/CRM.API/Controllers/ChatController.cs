@@ -1,10 +1,12 @@
 using System.Security.Claims;
 using CRM.Core.Abstractions.Services;
 using CRM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ChatController : ControllerBase
@@ -19,7 +21,7 @@ public class ChatController : ControllerBase
     [HttpGet("rooms")]
     public async Task<IActionResult> GetRooms()
     {
-        var userId = GetCurrentUserId(); // метод, достающий userId из токена
+        var userId = GetCurrentUserId();
         var rooms = await _chatService.GetUserRooms(userId);
         return Ok(rooms);
     }

@@ -58,14 +58,13 @@ public class ClubEnrollmentService : IClubEnrollmentService
         return await _clubEnrollmentRepository.GetAllWithPayments();
     }
     
-    
     public async Task<Guid> AddClubEnrollment(ClubEnrollment enrollment)
     {
         return await _clubEnrollmentRepository.AddClubEnrollment(enrollment);
     }
 
-    public async Task<Guid> UpdateClubEnrollment(ClubEnrollment enrollment)
+    public async Task<Guid> UpdateClubEnrollment(Guid id, Guid clubId, Club club, Guid pupilId, bool isActive)
     {
-        return await _clubEnrollmentRepository.UpdateClubEnrollment(enrollment);
+        return await _clubEnrollmentRepository.UpdateClubEnrollment(id, clubId, club, pupilId, isActive);
     }
 }

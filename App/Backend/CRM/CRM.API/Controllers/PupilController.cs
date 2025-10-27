@@ -2,10 +2,12 @@ using CRM.API.Contracts.Requests;
 using CRM.API.Contracts.Responses;
 using CRM.Core.Abstractions.Services;
 using CRM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class PupilController : ControllerBase
@@ -21,9 +23,7 @@ public class PupilController : ControllerBase
     public async Task<ActionResult<Pupil>> GetPupilByName(string firstName, string lastName)
     {
         var pupil = await _pupilService.GetPupilByName(firstName, lastName);
-        
         if (pupil == null) return NotFound();
-        
         var response = new PupilResponse(
             pupil.Id,
             pupil.FirstName,
@@ -74,11 +74,12 @@ public class PupilController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdatePupil(Guid id, [FromBody] PupilRequest request)
+    public async Task<ActionResult<Guid>> UpdatePupil(Guid id, string firstName, string lastName, string patronymic,
+        DateOnly dateOfBirth,
+        Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
     {
-        await _pupilService.UpdatePupil(id, request.FirstName, request.LastName, request.Patronymic,
-            request.DateOfBirth, request.GradeId, request.Grade, request.PhoneNumber, request.Email,
-            request.Address, request.Parents);
+        await _pupilService.UpdatePupil(id, firstName, lastName, patronymic, dateOfBirth, gradeId, grade, 
+            phoneNumber, email, address, parents);
         return Ok();
     }
 

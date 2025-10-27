@@ -2,10 +2,12 @@ using CRM.API.Contracts.Requests;
 using CRM.API.Contracts.Responses;
 using CRM.Core.Abstractions.Services;
 using CRM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class GradeController : ControllerBase
@@ -21,14 +23,13 @@ public class GradeController : ControllerBase
     public async Task<ActionResult<Grade>> GetGradeByName(string name)
     {
         var grade = await _gradeService.GetGradeByName(name);
-        
         if (grade == null) return NotFound();
-
         var response = new GradeResponse(
             grade.Id,
             grade.Name,
             grade.Pupils
             );
+        
         return Ok(response);
     }
 
