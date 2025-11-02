@@ -7,4 +7,4 @@ public record ClubRequest(
     string Description,
     decimal MonthlyFee,
     bool IsActive,
-    ClubEnrollment Enrollments);
+    ICollection<ClubEnrollment> Enrollments);

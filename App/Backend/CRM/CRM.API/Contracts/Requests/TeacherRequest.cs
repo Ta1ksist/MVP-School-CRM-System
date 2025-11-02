@@ -11,7 +11,6 @@ public record TeacherRequest(
     string PhoneNumber,
     string Email,
     string Address,
-    ICollection<Subject> Subjects,
     User User,
     Guid UserId
     );

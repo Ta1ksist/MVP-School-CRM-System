@@ -8,10 +8,10 @@ public class Club
     public decimal MonthlyFee { get; set; }
     public bool IsActive { get; set; }
 
-    public ClubEnrollment Enrollments { get; set; }
+    public ICollection<ClubEnrollment> Enrollments { get; set; }
 
     public Club(Guid id, string name, string description, decimal monthlyFee, bool isActive,
-        ClubEnrollment enrollments)
+        ICollection<ClubEnrollment> enrollments)
     {
         Id = id;
         Name = name;
@@ -22,7 +22,7 @@ public class Club
     }
 
     public static (Club club, string Error) Create(Guid id, string name, string description, decimal monthlyFee,
-        bool isActive, ClubEnrollment enrollments)
+        bool isActive, ICollection<ClubEnrollment> enrollments)
     {
         string error = "";
 

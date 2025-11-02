@@ -111,6 +111,19 @@
           }
         }
       },
+      "Dapper/2.0.123": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "EPPlus/8.2.1": {
         "type": "package",
         "dependencies": {
@@ -244,6 +257,25 @@
         },
         "runtime": {
           "lib/netstandard2.1/Hangfire.NetCore.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Hangfire.PostgreSql/1.20.12": {
+        "type": "package",
+        "dependencies": {
+          "Dapper": "2.0.123",
+          "Hangfire.Core": "1.8.0",
+          "Microsoft.CSharp": "4.7.0",
+          "Npgsql": "6.0.11"
+        },
+        "compile": {
+          "lib/netstandard2.0/Hangfire.PostgreSql.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Hangfire.PostgreSql.dll": {
             "related": ".xml"
           }
         }
@@ -3007,6 +3039,24 @@
         "packageIcon.png"
       ]
     },
+    "Dapper/2.0.123": {
+      "sha512": "RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
+      "type": "package",
+      "path": "dapper/2.0.123",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Dapper.png",
+        "dapper.2.0.123.nupkg.sha512",
+        "dapper.nuspec",
+        "lib/net461/Dapper.dll",
+        "lib/net461/Dapper.xml",
+        "lib/net5.0/Dapper.dll",
+        "lib/net5.0/Dapper.xml",
+        "lib/netstandard2.0/Dapper.dll",
+        "lib/netstandard2.0/Dapper.xml"
+      ]
+    },
     "EPPlus/8.2.1": {
       "sha512": "bsURKrvyocJK3//ulYEJ2P6Q6DSbWv6SDDTX2he7L4c0fMvcQO32iY7PFba+1Eb4jPnCR+CkDtwh95yE4w1z3g==",
       "type": "package",
@@ -3210,6 +3260,20 @@
         "lib/netstandard2.0/Hangfire.NetCore.xml",
         "lib/netstandard2.1/Hangfire.NetCore.dll",
         "lib/netstandard2.1/Hangfire.NetCore.xml"
+      ]
+    },
+    "Hangfire.PostgreSql/1.20.12": {
+      "sha512": "KvozigeVgbYSinFmaj5qQWRaBG7ey/S73UP6VLIOPcP1UrZO0/6hSw4jN53TKpWP2UsiMuYONRmQbFDxGAi4ug==",
+      "type": "package",
+      "path": "hangfire.postgresql/1.20.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "hangfire.postgresql.1.20.12.nupkg.sha512",
+        "hangfire.postgresql.nuspec",
+        "lib/netstandard2.0/Hangfire.PostgreSql.dll",
+        "lib/netstandard2.0/Hangfire.PostgreSql.xml"
       ]
     },
     "Hangfire.SqlServer/1.8.21": {
@@ -7645,6 +7709,7 @@
       "EPPlus >= 8.2.1",
       "Hangfire >= 1.8.21",
       "Hangfire.AspNetCore >= 1.8.21",
+      "Hangfire.PostgreSql >= 1.20.12",
       "MailKit >= 4.14.1",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 9.0.9",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 9.0.9",
@@ -7734,6 +7799,10 @@
           "Hangfire.AspNetCore": {
             "target": "Package",
             "version": "[1.8.21, )"
+          },
+          "Hangfire.PostgreSql": {
+            "target": "Package",
+            "version": "[1.20.12, )"
           },
           "MailKit": {
             "target": "Package",

@@ -12,7 +12,6 @@ public record TeacherResponse(
     string PhoneNumber,
     string Email,
     string Address,
-    ICollection<Subject> Subjects,
     User User,
     Guid UserId
     );

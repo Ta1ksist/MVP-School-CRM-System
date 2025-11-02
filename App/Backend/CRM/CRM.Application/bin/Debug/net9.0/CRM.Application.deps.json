@@ -16,6 +16,7 @@
           "EPPlus": "8.2.1",
           "Hangfire": "1.8.21",
           "Hangfire.AspNetCore": "1.8.21",
+          "Hangfire.PostgreSql": "1.20.12",
           "MailKit": "4.14.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.9",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.9",
@@ -112,6 +113,14 @@
           "lib/net6.0/BouncyCastle.Cryptography.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.6.1.59591"
+          }
+        }
+      },
+      "Dapper/2.0.123": {
+        "runtime": {
+          "lib/net5.0/Dapper.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.123.33578"
           }
         }
       },
@@ -224,6 +233,20 @@
           "lib/netstandard2.1/Hangfire.NetCore.dll": {
             "assemblyVersion": "1.8.21.0",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Hangfire.PostgreSql/1.20.12": {
+        "dependencies": {
+          "Dapper": "2.0.123",
+          "Hangfire.Core": "1.8.21",
+          "Microsoft.CSharp": "4.7.0",
+          "Npgsql": "9.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Hangfire.PostgreSql.dll": {
+            "assemblyVersion": "1.20.12.0",
+            "fileVersion": "1.20.12.0"
           }
         }
       },
@@ -1809,6 +1832,7 @@
           "EPPlus": "8.2.1",
           "Hangfire": "1.8.21",
           "Hangfire.AspNetCore": "1.8.21",
+          "Hangfire.PostgreSql": "1.20.12",
           "MailKit": "4.14.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.9",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.9",
@@ -1841,6 +1865,7 @@
           "EPPlus": "8.2.1",
           "Hangfire": "1.8.21",
           "Hangfire.AspNetCore": "1.8.21",
+          "Hangfire.PostgreSql": "1.20.12",
           "MailKit": "4.14.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.9",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.9",
@@ -1920,6 +1945,13 @@
       "path": "bouncycastle.cryptography/2.6.1",
       "hashPath": "bouncycastle.cryptography.2.6.1.nupkg.sha512"
     },
+    "Dapper/2.0.123": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
+      "path": "dapper/2.0.123",
+      "hashPath": "dapper.2.0.123.nupkg.sha512"
+    },
     "EPPlus/8.2.1": {
       "type": "package",
       "serviceable": true,
@@ -1961,6 +1993,13 @@
       "sha512": "sha512-NR8BvQqgvVstgY/YZVisuV/XdkKSZGiD+5b+NABuGxu/xDEhycFHS1uIC9zhIYkPr1tThGoThRIH07JWxPZTvQ==",
       "path": "hangfire.netcore/1.8.21",
       "hashPath": "hangfire.netcore.1.8.21.nupkg.sha512"
+    },
+    "Hangfire.PostgreSql/1.20.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KvozigeVgbYSinFmaj5qQWRaBG7ey/S73UP6VLIOPcP1UrZO0/6hSw4jN53TKpWP2UsiMuYONRmQbFDxGAi4ug==",
+      "path": "hangfire.postgresql/1.20.12",
+      "hashPath": "hangfire.postgresql.1.20.12.nupkg.sha512"
     },
     "Hangfire.SqlServer/1.8.21": {
       "type": "package",

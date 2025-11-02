@@ -4,6 +4,5 @@ namespace CRM.API.Contracts.Responses;
 
 public record GradeResponse(
     Guid Id,
-    string Name,
-    Pupil Pupils
+    string Name
     );

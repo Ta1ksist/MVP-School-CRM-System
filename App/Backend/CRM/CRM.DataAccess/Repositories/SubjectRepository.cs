@@ -48,7 +48,25 @@ public class SubjectRepository : ISubjectRepository
         return subject.Id;
     }
 
-    public async Task<Guid> UpdateSubject(Guid id, string name, Teacher teachers)
+    public async Task AddTeacherToSubject(Guid subjectId, Guid teacherId)
+    {
+        var subject = await _context.Subjects
+            .Include(s => s.Teachers)
+            .FirstOrDefaultAsync(s => s.Id == subjectId);
+
+        if (subject == null) throw new KeyNotFoundException("Предмет не найден");
+
+        var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == teacherId);
+
+        if (teacher == null) throw new KeyNotFoundException("Учитель не найден");
+
+        if (!subject.Teachers.Any(t => t.Id == teacherId))
+            subject.Teachers.Add(teacher);
+
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task<Guid> UpdateSubject(Guid id, string name, ICollection<Teacher> teachers)
     {
         var subjectEntity = await _context.Subjects
             .Include(s => s.Teachers)

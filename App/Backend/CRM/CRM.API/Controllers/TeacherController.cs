@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class TeacherController : ControllerBase
@@ -34,7 +34,6 @@ public class TeacherController : ControllerBase
             teacher.PhoneNumber,
             teacher.Email,
             teacher.Address,
-            teacher.Subjects,
             teacher.User,
             teacher.UserId
             );
@@ -48,7 +47,7 @@ public class TeacherController : ControllerBase
         var teachers = await _teacherService.GetAllTeachers();
         var response = teachers
             .Select(t => new TeacherResponse(t.Id, t.FirstName, t.LastName, t.Patronymic,
-                t.DateOfBirth, t.PhotoPath, t.PhoneNumber, t.Email, t.Address, t.Subjects, t.User,
+                t.DateOfBirth, t.PhotoPath, t.PhoneNumber, t.Email, t.Address, t.User,
             t.UserId));
         
         return Ok(response);
@@ -67,7 +66,6 @@ public class TeacherController : ControllerBase
             request.PhoneNumber,
             request.Email,
             request.Address,
-            request.Subjects,
             request.User,
             request.UserId
             );

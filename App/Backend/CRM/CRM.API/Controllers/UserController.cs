@@ -7,132 +7,73 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : Controller
+public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-    
+
     public UserController(IUserService userService)
     {
         _userService = userService;
     }
 
-    [HttpGet("ByUserId/{id}")]
-    public async Task<ActionResult<User>> GetUserById(Guid id)
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<UserResponse>> GetUserById(Guid id)
     {
         var user = await _userService.GetUserById(id);
-        if (user == null) return NotFound();
+        if (user == null)
+            return NotFound();
         var response = new UserResponse(
             user.Id,
             user.UserName,
-            user.PasswordHash,
             user.Role,
             user.TeacherId,
-            user.Teacher,
-            user.DirectorateId,
-            user.Directorate
-        );
-        
+            user.DirectorateId);
         return Ok(response);
     }
-    
-    [HttpGet("ByUserName/{userName}")]
-    public async Task<ActionResult<User>> GetUserByUserName(string userName)
+
+    [HttpGet("ByName/{userName}")]
+    public async Task<ActionResult<UserResponse>> GetUserByUserName(string userName)
     {
         var user = await _userService.GetUserByUserName(userName);
         if (user == null) return NotFound();
         var response = new UserResponse(
             user.Id,
             user.UserName,
-            user.PasswordHash,
             user.Role,
             user.TeacherId,
-            user.Teacher,
-            user.DirectorateId,
-            user.Directorate
-        );
-        
+            user.DirectorateId);
         return Ok(response);
     }
 
-    [HttpGet("ByTeacherId/{teacherId}")]
-    public async Task<ActionResult<User>> GetUserTeacherId(Guid teacherId)
-    {
-        var user = await _userService.GetUserTeacherId(teacherId);
-        if (user == null) return NotFound();
-        var response = new UserResponse(
-            user.Id,
-            user.UserName,
-            user.PasswordHash,
-            user.Role,
-            user.TeacherId,
-            user.Teacher,
-            user.DirectorateId,
-            user.Directorate
-        );
-        
-        return Ok(response);
-    }
-    
-    [HttpGet("ByDirectorateId/{directorId}")]
-    public async Task<ActionResult<User>> GetUserDirectorateId(Guid directorId)
-    {
-        var user = await _userService.GetUserDirectorateId(directorId);
-        if (user == null) return NotFound();
-        var response = new UserResponse(
-            user.Id,
-            user.UserName,
-            user.PasswordHash,
-            user.Role,
-            user.TeacherId,
-            user.Teacher,
-            user.DirectorateId,
-            user.Directorate
-        );
-        
-        return Ok(response);
-    }
-    
     [HttpGet("all")]
-    public async Task<ActionResult<List<User>>> GetAllUsers()
+    public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
     {
         var users = await _userService.GetAllUsers();
         var response = users
-            .Select(u => new UserResponse(u.Id, u.UserName, u.PasswordHash, u.Role, u.TeacherId, u.Teacher,
-                u.DirectorateId, u.Directorate));
-        
+            .Select(u => new UserResponse(u.Id, u.UserName, u.Role, u.TeacherId, u.DirectorateId));
         return Ok(response);
     }
-    
+
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Guid>> AddUser([FromBody] UserRequest request)
     {
         var user = new User(
             Guid.NewGuid(),
             request.UserName,
-            request.PasswordHash,
-            request.Role, 
-            request.TeacherId,
-            request.Teacher,
-            request.DirectorateId,
-            request.Directorate
-            );
+            request.Password,
+            request.Role);
         
         await _userService.AddUser(user);
-        return Ok(user);
-    }
-    
-    [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdateUser(Guid id, string userName, string passwordHash, string role)
-    {
-        await _userService.UpdateUser(id, userName, passwordHash, role);
-        return Ok();
+        return Ok(user.Id);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<ActionResult<Guid>> DeleteUser(Guid id)
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult> DeleteUser(Guid id)
     {
         await _userService.DeleteUser(id);
         return Ok();

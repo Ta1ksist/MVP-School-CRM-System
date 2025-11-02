@@ -8,12 +8,14 @@ public class ChatMessageConfiguration : IEntityTypeConfiguration<ChatMessageEnti
 {
     public void Configure(EntityTypeBuilder<ChatMessageEntity> builder)
     {
-        builder.HasKey(m => m.Id);
-        builder.Property(m => m.Text).IsRequired();
-        builder.Property(m => m.SentAt).IsRequired();
-        builder.HasOne(m => m.Room)
-            .WithMany(r => r.Messages)
-            .HasForeignKey(m => m.RoomId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasKey(cm => cm.Id);
+        builder.Property(cm => cm.Text)
+            .IsRequired()
+            .HasMaxLength(2000);
+        builder.Property(cm => cm.SentAt)
+            .IsRequired();
+        builder.HasOne(cm => cm.Room)
+            .WithMany(cr => cr.Messages)
+            .HasForeignKey(cm => cm.RoomId);
     }
 }

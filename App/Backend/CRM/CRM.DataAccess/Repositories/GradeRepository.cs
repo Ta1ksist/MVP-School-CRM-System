@@ -41,32 +41,38 @@ public class GradeRepository : IGradeRepository
     public async Task<Guid> AddGrade(Grade grade)
     {
         var gradeEntity = _mapper.Map<GradeEntity>(grade);
-
+        gradeEntity.Id = Guid.NewGuid();
+        
         await _context.Grades.AddAsync(gradeEntity);
         await _context.SaveChangesAsync();
         
         return gradeEntity.Id;
     }
 
-    public async Task<Guid> UpdateGrade(Guid id, string name, Pupil pupil)
+    public async Task AddPupilToGrade(Guid gradeId, Guid pupilId)
     {
-        var gradeEntity = await _context.Grades
-            .Include(g => g.Pupils)
-            .FirstOrDefaultAsync(g => g.Id == id);
-        
-        if (gradeEntity == null) throw new Exception("Класс не найден");
-        
-        gradeEntity.Name = name;
-        var pupilEntity = _mapper.Map<PupilEntity>(pupil);
-        pupilEntity.GradeId = gradeEntity.Id;
-        
-        if (!gradeEntity.Pupils.Any(p => p.Id == pupilEntity.Id))
-        {
-            gradeEntity.Pupils.Add(pupilEntity);
-        }
+        var ge = await _context.Grades.Include(g => g.Pupils).FirstOrDefaultAsync(g => g.Id == gradeId);
+        if (ge == null) throw new KeyNotFoundException("Класс не найден");
+
+        var pe = await _context.Pupils.FirstOrDefaultAsync(p => p.Id == pupilId);
+        if (pe == null) throw new KeyNotFoundException("Ученик не найден");
+
+        pe.GradeId = gradeId;
+        if (!ge.Pupils.Any(p => p.Id == pupilId)) ge.Pupils.Add(pe);
 
         await _context.SaveChangesAsync();
+    }
+    
+    public async Task<Guid> UpdateGrade(Guid id, string name)
+    {
+        var gradeEntity = await _context.Grades
+            .FirstOrDefaultAsync(g => g.Id == id);
 
+        if (gradeEntity == null) throw new Exception("Класс не найден");
+
+        gradeEntity.Name = name;
+
+        await _context.SaveChangesAsync();
         return id;
     }
 
@@ -76,5 +82,14 @@ public class GradeRepository : IGradeRepository
             .ExecuteDeleteAsync();
         
         return id;
+    }
+    
+    public async Task RemovePupilFromGrade(Guid gradeId, Guid pupilId)
+    {
+        var pe = await _context.Pupils.FirstOrDefaultAsync(p => p.Id == pupilId && p.GradeId == gradeId);
+        if (pe == null) throw new KeyNotFoundException("Ученик в классе не найден");
+
+        pe.GradeId = Guid.Empty;
+        await _context.SaveChangesAsync();
     }
 }

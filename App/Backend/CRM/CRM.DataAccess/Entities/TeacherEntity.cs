@@ -12,7 +12,7 @@ public class TeacherEntity
     public string Email { get; set; }
     public string Address { get; set; }
 
-    public ICollection<SubjectEntity> Subjects { get; set; }
+    public List<SubjectEntity> Subjects { get; set; } = new();
     
     public UserEntity User { get; set; }
     public Guid UserId { get; set; }

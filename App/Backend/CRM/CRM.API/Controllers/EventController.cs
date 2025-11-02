@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class EventController : ControllerBase
@@ -73,7 +73,7 @@ public class EventController : ControllerBase
             );
         
         await _eventService.AddEvent(eevent);
-        return Ok(eevent.Id);
+        return Ok(eevent);
     }
 
     [HttpPut("{id:guid}")]

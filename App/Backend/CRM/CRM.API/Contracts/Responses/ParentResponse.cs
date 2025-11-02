@@ -12,6 +12,5 @@ public record ParentResponse(
     string PhoneNumber,
     string Email,
     string Address,
-    Guid PupilId,
-    Pupil Pupil
+    ICollection<Pupil> Pupils
     );

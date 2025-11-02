@@ -31,7 +31,12 @@ public class SubjectService : ISubjectService
         return await _repository.AddSubject(subject);
     }
 
-    public async Task<Guid> UpdateSubject(Guid id, string name, Teacher teachers)
+    public async Task AddTeacherToSubject(Guid subjectId, Guid teacherId)
+    {
+        await _repository.AddTeacherToSubject(subjectId, teacherId);
+    }
+    
+    public async Task<Guid> UpdateSubject(Guid id, string name, ICollection<Teacher> teachers)
     {
         return await _repository.UpdateSubject(id, name, teachers);
     }

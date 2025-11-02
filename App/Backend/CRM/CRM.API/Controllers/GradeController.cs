@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class GradeController : ControllerBase
@@ -23,11 +23,9 @@ public class GradeController : ControllerBase
     public async Task<ActionResult<Grade>> GetGradeByName(string name)
     {
         var grade = await _gradeService.GetGradeByName(name);
-        if (grade == null) return NotFound();
         var response = new GradeResponse(
             grade.Id,
-            grade.Name,
-            grade.Pupils
+            grade.Name
             );
         
         return Ok(response);
@@ -38,7 +36,7 @@ public class GradeController : ControllerBase
     {
         var grades = await _gradeService.GetAllGrades();
         var response = grades
-            .Select(g => new GradeResponse(g.Id, g.Name, g.Pupils));
+            .Select(g => new GradeResponse(g.Id, g.Name));
         
         return Ok(response);
     }
@@ -48,8 +46,7 @@ public class GradeController : ControllerBase
     {
         var grade = new Grade(
             Guid.NewGuid(),
-            request.Name,
-            request.Pupils
+            request.Name
             );
         
         await _gradeService.AddGrade(grade);
@@ -59,7 +56,7 @@ public class GradeController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateGrade(Guid id, [FromBody] GradeRequest request)
     {
-        await _gradeService.UpdateGrade(id, request.Name, request.Pupils);
+        await _gradeService.UpdateGrade(id, request.Name);
         return Ok();
     }
 

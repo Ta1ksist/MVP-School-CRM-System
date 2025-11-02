@@ -19,54 +19,58 @@ public class ChatRepository : IChatRepository
     
     public async Task<ChatRoom?> GetRoomById(Guid roomId)
     {
-        var chatRoomEntity = await _context.ChatRooms
-            .Where(cr => cr.Id == roomId)
-            .FirstOrDefaultAsync();
-        var chatRoom = _mapper.Map<ChatRoom>(chatRoomEntity);
-        return chatRoom;
+        var entity = await _context.ChatRooms
+            .Include(r => r.Participants)
+            .Include(r => r.Messages)
+            .FirstOrDefaultAsync(r => r.Id == roomId);
+
+        return _mapper.Map<ChatRoom>(entity);
     }
 
     public async Task<IEnumerable<ChatRoom>> GetAllRooms()
     {
-        var chatRoomEntities = await _context.ChatRooms
+        var entities = await _context.ChatRooms
+            .Include(r => r.Participants)
+            .Include(r => r.Messages)
             .AsNoTracking()
             .ToListAsync();
-        var chatRooms = _mapper.Map<IEnumerable<ChatRoom>>(chatRoomEntities);
-        return chatRooms;
+
+        return _mapper.Map<IEnumerable<ChatRoom>>(entities);
     }
 
     public async Task<IEnumerable<ChatRoom>> GetUserRooms(Guid userId)
     {
-        string idStr = userId.ToString();
-        var chatRoomsEntity = await _context.ChatRooms
-            .Where(r => r.Participants.Contains(idStr))
+        var entities = await _context.ChatRooms
+            .Include(r => r.Participants)
+            .Include(r => r.Messages)
+            .Where(r => r.Participants.Any(p => p.UserId == userId))
             .ToListAsync();
-        var chatRooms = _mapper.Map<IEnumerable<ChatRoom>>(chatRoomsEntity);
-        return chatRooms;
-    }
 
+        return _mapper.Map<IEnumerable<ChatRoom>>(entities);
+    }
     
     public async Task AddRoom(ChatRoom room)
     {
-        var chatRoomEntity = _mapper.Map<ChatRoomEntity>(room);
-        _context.ChatRooms.Add(chatRoomEntity);
+        var entity = _mapper.Map<ChatRoomEntity>(room);
+        _context.ChatRooms.Add(entity);
         await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<ChatMessage>> GetMessagesByRoomId(Guid roomId)
     {
-        var ChatMessageEntity = await _context.ChatMessages
+        var entities = await _context.ChatMessages
             .Where(m => m.RoomId == roomId)
             .OrderBy(m => m.SentAt)
+            .AsNoTracking()
             .ToListAsync();
-        var ChatMessages = _mapper.Map<IEnumerable<ChatMessage>>(ChatMessageEntity);
-        return ChatMessages;
+
+        return _mapper.Map<IEnumerable<ChatMessage>>(entities);
     }
 
     public async Task AddMessage(ChatMessage message)
     {
-        var ChatMessageEntity = _mapper.Map<ChatMessageEntity>(message);
-        _context.ChatMessages.Add(ChatMessageEntity);
+        var entity = _mapper.Map<ChatMessageEntity>(message);
+        _context.ChatMessages.Add(entity);
         await _context.SaveChangesAsync();
     }
 }

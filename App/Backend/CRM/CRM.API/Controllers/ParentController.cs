@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class ParentController : ControllerBase
@@ -23,7 +23,6 @@ public class ParentController : ControllerBase
     public async Task<ActionResult<Parent>> GetParentByName(string firstName, string lastName)
     {
         var parent = await _parentService.GetParentByName(firstName, lastName);
-        if (parent == null) return NotFound();
         var response = new ParentResponse(
             parent.Id,
             parent.FirstName,
@@ -34,8 +33,7 @@ public class ParentController : ControllerBase
             parent.PhoneNumber,
             parent.Email,
             parent.Address,
-            parent.PupilId,
-            parent.Pupil
+            parent.Pupils
             );
         
         return Ok(response);
@@ -47,7 +45,7 @@ public class ParentController : ControllerBase
         var parents = await _parentService.GetAllParents();
         var response = parents
             .Select(p => new ParentResponse(p.Id, p.FirstName, p.LastName, p.Patronymic,
-                p.DateOfBirth, p.Role, p.PhoneNumber, p.Email, p.Address, p.PupilId, p.Pupil));
+                p.DateOfBirth, p.Role, p.PhoneNumber, p.Email, p.Address, p.Pupils));
         
         return Ok(response);
     }
@@ -65,8 +63,7 @@ public class ParentController : ControllerBase
             request.PhoneNumber,
             request.Email,
             request.Address,
-            request.PupilId,
-            request.Pupil
+            request.Pupils
             );
 
         await _parentService.AddParent(parent);
@@ -75,10 +72,10 @@ public class ParentController : ControllerBase
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateParent(Guid id, string firstName, string lastName, string patronymic,
-        DateOnly dateOfBirth, string role, string phoneNumber, string email, string address, Guid pupilId, Pupil pupil)
+        DateOnly dateOfBirth, string role, string phoneNumber, string email, string address, ICollection<Pupil> pupils)
     {
         await _parentService.UpdateParent(id, firstName, lastName, patronymic, dateOfBirth, role, 
-            phoneNumber, email, address, pupilId, pupil);
+            phoneNumber, email, address, pupils);
         return Ok();
     }
 

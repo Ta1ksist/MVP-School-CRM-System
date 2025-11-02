@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PYmBY9LDDDs=",
+  "dgSpecHash": "PAFJin1sJmY=",
   "success": true,
   "projectFilePath": "/Users/izzatmelikov/Desktop/MVP-School-CRM-System/App/Backend/CRM/CRM.Application/CRM.Application.csproj",
   "expectedPackageFiles": [
@@ -11,12 +11,14 @@
     "/Users/izzatmelikov/.nuget/packages/bcrypt/1.0.0/bcrypt.1.0.0.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/bouncycastle.cryptography/2.6.1/bouncycastle.cryptography.2.6.1.nupkg.sha512",
+    "/Users/izzatmelikov/.nuget/packages/dapper/2.0.123/dapper.2.0.123.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/epplus/8.2.1/epplus.8.2.1.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/epplus.interfaces/8.1.0/epplus.interfaces.8.1.0.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/hangfire/1.8.21/hangfire.1.8.21.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/hangfire.aspnetcore/1.8.21/hangfire.aspnetcore.1.8.21.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/hangfire.core/1.8.21/hangfire.core.1.8.21.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/hangfire.netcore/1.8.21/hangfire.netcore.1.8.21.nupkg.sha512",
+    "/Users/izzatmelikov/.nuget/packages/hangfire.postgresql/1.20.12/hangfire.postgresql.1.20.12.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/hangfire.sqlserver/1.8.21/hangfire.sqlserver.1.8.21.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/izzatmelikov/.nuget/packages/mailkit/4.14.1/mailkit.4.14.1.nupkg.sha512",

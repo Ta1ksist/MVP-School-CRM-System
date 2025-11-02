@@ -1,13 +1,18 @@
 using CRM.DataAccess.Configurations;
 using CRM.DataAccess.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.DataAccess;
 
-public class CRMContext : IdentityDbContext<UserEntity>
+public class CRMContext 
+    : IdentityDbContext<UserEntity, IdentityRole<Guid>, Guid>
 {
-    public CRMContext(DbContextOptions<CRMContext> options) : base(options)
+    public CRMContext() { }
+
+    public CRMContext(DbContextOptions<CRMContext> options) 
+        : base(options)
     {
     }
 
@@ -28,6 +33,7 @@ public class CRMContext : IdentityDbContext<UserEntity>
         modelBuilder.ApplyConfiguration(new NewsConfiguration());
         modelBuilder.ApplyConfiguration(new ChatRoomConfiguration());
         modelBuilder.ApplyConfiguration(new ChatMessageConfiguration());
+        modelBuilder.ApplyConfiguration(new ChatParticipantEntityConfiguration());
         
         var adminId = Guid.NewGuid();
 
@@ -55,4 +61,5 @@ public class CRMContext : IdentityDbContext<UserEntity>
     public DbSet<NewsEntity> News { get; set; }
     public DbSet<ChatRoomEntity> ChatRooms { get; set; }
     public DbSet<ChatMessageEntity> ChatMessages { get; set; }
+    public DbSet<ChatParticipantEntity> ChatParticipants { get; set; }
 }

@@ -9,6 +9,7 @@ public interface ITeacherRepository
     Task<List<Teacher>> GetAllTeachers();
     Task<List<string>> GetEmailsAllTeachers();
     Task<Guid> AddTeacher(Teacher teacher);
+    Task AddSubjectToTeacher(Guid teacherId, Guid subjectId);
     Task<Guid> UpdateTeacher(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
         string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects, Guid userId);

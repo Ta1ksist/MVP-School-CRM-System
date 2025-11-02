@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin, Director")]
 [ApiController]
 [Route("api/[controller]")]
 public class FinanceController : ControllerBase
@@ -37,7 +37,7 @@ public class FinanceController : ControllerBase
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DebtReport.xlsx");
     }
 
-    [HttpPost("debt/excel")]
+    [HttpPost("debt/pdf")]
     public async Task<IActionResult> GeneratePdf([FromBody] List<Guid> pupilIds)
     {
         var debts = new List<PupilDebDTO>();

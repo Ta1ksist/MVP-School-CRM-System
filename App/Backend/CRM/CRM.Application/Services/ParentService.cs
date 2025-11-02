@@ -38,10 +38,10 @@ public class ParentService : IParentService
 
     public async Task<Guid> UpdateParent(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        string role, string phoneNumber, string email, string address, Guid pupilId, Pupil pupil)
+        string role, string phoneNumber, string email, string address,ICollection<Pupil> pupil)
     {
         return await _repository.UpdateParent(id, firstName, lastName, patronymic, dateOfBirth, role, phoneNumber,
-            email, address, pupilId, pupil);
+            email, address, pupil);
     }
 
     public async Task<Guid> DeleteParent(Guid id)

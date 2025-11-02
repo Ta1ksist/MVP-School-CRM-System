@@ -73,6 +73,10 @@
               "target": "Package",
               "version": "[1.8.21, )"
             },
+            "Hangfire.PostgreSql": {
+              "target": "Package",
+              "version": "[1.20.12, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.14.1, )"
@@ -234,6 +238,10 @@
             "Hangfire.AspNetCore": {
               "target": "Package",
               "version": "[1.8.21, )"
+            },
+            "Hangfire.PostgreSql": {
+              "target": "Package",
+              "version": "[1.20.12, )"
             },
             "MailKit": {
               "target": "Package",

@@ -30,7 +30,7 @@ public class ParentRepository : IParentRepository
     public async Task<List<Parent>> GetAllParents()
     {
         var parentEntity = await _context.Parents
-            .Include(t => t.Pupil)
+            .Include(t => t.Pupils)
             .AsNoTracking()
             .ToListAsync();
         
@@ -41,7 +41,6 @@ public class ParentRepository : IParentRepository
     public async Task<List<string>> GetEmailsAllParents()
     {
         var parentEntity = await _context.Parents
-            .Include(t => t.Pupil)
             .Where(p => !string.IsNullOrEmpty(p.Email))
             .AsNoTracking()
             .Select(p => p.Email)
@@ -63,18 +62,14 @@ public class ParentRepository : IParentRepository
 
     public async Task<Guid> UpdateParent(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        string role, string phoneNumber, string email, string address, Guid pupilId, Pupil pupil)
+        string role, string phoneNumber, string email, string address, ICollection<Pupil> pupils)
     {
         var parentEntity = await _context.Parents
-            .Include(g => g.Pupil)
+            .Include(g => g.Pupils)
             .FirstOrDefaultAsync(g => g.Id == id);
 
         if (parentEntity == null)
             throw new Exception("Родитель не найден");
-
-        var pupilEntity = await _context.Pupils.FirstOrDefaultAsync(p => p.Id == pupilId);
-        if (pupilEntity == null)
-            throw new Exception("Ученик не найден");
 
         parentEntity.FirstName = firstName;
         parentEntity.LastName = lastName;
@@ -84,8 +79,6 @@ public class ParentRepository : IParentRepository
         parentEntity.PhoneNumber = phoneNumber;
         parentEntity.Email = email;
         parentEntity.Address = address;
-        parentEntity.Pupil = pupilEntity;
-        parentEntity.PupilId = pupilId;
 
         await _context.SaveChangesAsync();
         return id;

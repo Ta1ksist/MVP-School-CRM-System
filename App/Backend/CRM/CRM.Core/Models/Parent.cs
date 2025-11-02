@@ -14,13 +14,12 @@ public class Parent
     public string Email { get; set; }
     public string Address { get; set; }
     
-    public Guid PupilId { get; set; }
-    public Pupil Pupil { get; set; }
+    public ICollection<Pupil> Pupils { get; set; }
     
     public string FullName => $"{LastName} {FirstName} {Patronymic}";
 
     public Parent(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
-        string role, string phoneNumber, string email, string address, Guid pupilId,Pupil pupil)
+        string role, string phoneNumber, string email, string address,ICollection<Pupil> pupil)
     {
         Id = id;
         FirstName = firstName;
@@ -31,12 +30,11 @@ public class Parent
         PhoneNumber = phoneNumber;
         Email = email;
         Address = address;
-        PupilId = pupilId;
-        Pupil = pupil;
+        Pupils = pupil;
     }
 
     public static (Parent parent, string Error) Create(Guid id, string firstName, string lastName, string patronymic,
-        DateOnly dateOfBirth, string role, string phoneNumber, string email, string address, Guid pupilId,Pupil pupil)
+        DateOnly dateOfBirth, string role, string phoneNumber, string email, string address, ICollection<Pupil> pupil)
     {
         string error = "";
         
@@ -48,7 +46,7 @@ public class Parent
         if (string.IsNullOrEmpty(email)) error = "Строка почты не может быть пустой";
         if (string.IsNullOrEmpty(address)) error = "Строка адреса не может быть пустой";
 
-        var parent = new Parent(id, firstName, lastName, patronymic, dateOfBirth, role, phoneNumber, email, address,  pupilId, pupil);
+        var parent = new Parent(id, firstName, lastName, patronymic, dateOfBirth, role, phoneNumber, email, address, pupil);
         
         return (parent, error);
     }

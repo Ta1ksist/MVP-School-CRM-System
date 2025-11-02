@@ -17,94 +17,87 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
     
-    public async Task<User> GetUserById(Guid id)
+    public async Task<User?> GetUserById(Guid id)
     {
-        var userEntity = await _context.Users
+        var entity = await _context.Users
+            .AsSplitQuery()
             .Include(u => u.Teacher)
             .Include(u => u.Directorate)
             .FirstOrDefaultAsync(u => u.Id == id);
 
-        if (userEntity == null) return null;
-        
-        var user = _mapper.Map<User>(userEntity);
-        return user;
+        return entity == null ? null : _mapper.Map<User>(entity);
     }
 
-    public async Task<User> GetUserByUsername(string userName)
+    public async Task<User?> GetUserByUsername(string userName)
     {
-        var userEntity = await _context.Users
+        var entity = await _context.Users
+            .AsSplitQuery()
             .Include(u => u.Teacher)
             .Include(u => u.Directorate)
             .FirstOrDefaultAsync(u => u.UserName == userName);
 
-        if (userEntity == null) return null;
-
-        var user = _mapper.Map<User>(userEntity);
-        return user;
+        return entity == null ? null : _mapper.Map<User>(entity);
     }
     
-    public async Task<User> GetUserTeacherId(Guid teacherId)
+    public async Task<User?> GetUserTeacherId(Guid teacherId)
     {
-        var userEntity = await _context.Users
+        var entity = await _context.Users
+            .AsSplitQuery()
             .Include(u => u.Teacher)
             .Include(u => u.Directorate)
             .FirstOrDefaultAsync(u => u.TeacherId == teacherId);
-        
-        if (userEntity == null) return null;
-        
-        var userTeacher = _mapper.Map<User>(userEntity);
-        
-        return  userTeacher;
+
+        return entity == null ? null : _mapper.Map<User>(entity);
     }
 
-    public async Task<User> GetUserDirectorateId(Guid directorateId)
+    public async Task<User?> GetUserDirectorateId(Guid directorateId)
     {
-        var userEntity = await _context.Users
+        var entity = await _context.Users
+            .AsSplitQuery()
             .Include(u => u.Teacher)
             .Include(u => u.Directorate)
             .FirstOrDefaultAsync(u => u.DirectorateId == directorateId);
-        
-        if (userEntity == null) return null;
-        
-        var userDirectorate = _mapper.Map<User>(userEntity);
-        
-        return userDirectorate;
+
+        return entity == null ? null : _mapper.Map<User>(entity);
     }
     
     public async Task<List<User>> GetAllUsers()
     {
-        var userEntity = await _context.Users.AsNoTracking().ToListAsync();
-        var users = _mapper.Map<List<User>>(userEntity);
+        var entities = await _context.Users
+            .AsSplitQuery()
+            .ToListAsync();
 
-        return users;
+        return _mapper.Map<List<User>>(entities);
     }
     
     public async Task<Guid> AddUser(User user)
     {
-        var userEntity = _mapper.Map<UserEntity>(user);
-        
-        await _context.Users.AddAsync(userEntity);
+        var entity = _mapper.Map<UserEntity>(user);
+
+        await _context.Users.AddAsync(entity);
         await _context.SaveChangesAsync();
-        
-        return userEntity.Id;
+
+        return entity.Id;
     }
     
     public async Task<Guid> UpdateUser(Guid id, string userName, string passwordHash, string role)
     {
-        var userEntity = await _context.Users.Where(u => u.Id == id)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(u => u.UserName, userName)
-                .SetProperty(u => u.PasswordHash, passwordHash)
-                .SetProperty(u => u.Role, role));
+        var entity = await _context.Users.FindAsync(id);
+        if (entity == null)
+            throw new KeyNotFoundException("Пользователь не найден");
 
-        return id;
+        entity.UserName = userName;
+        entity.PasswordHash = passwordHash;
+        entity.Role = role;
+
+        await _context.SaveChangesAsync();
+        return entity.Id;
     }
     
     public async Task<Guid> DeleteUser(Guid id)
     {
         var userEntity = await _context.Users.Where(u => u.Id == id)
             .ExecuteDeleteAsync();
-        
         return id;
     }
 }

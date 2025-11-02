@@ -18,11 +18,8 @@ public class ParentConfiguration : IEntityTypeConfiguration<ParentEntity>
         builder.Property(p => p.PhoneNumber).IsRequired();
         builder.Property(p => p.Email).IsRequired();
         builder.Property(p => p.Address).IsRequired();
-        builder.Property(p => p.PupilId).IsRequired();
-        builder.HasOne(p => p.Pupil)
-            .WithMany(pu => pu.Parents)
-            .HasForeignKey(p => p.PupilId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(p => p.Pupils)
+            .WithMany(pu => pu.Parents);
+
     }
 }

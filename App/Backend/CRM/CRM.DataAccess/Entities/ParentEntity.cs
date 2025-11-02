@@ -12,6 +12,5 @@ public class ParentEntity
     public string Email { get; set; }
     public string Address { get; set; }
     
-    public Guid PupilId { get; set; }
-    public PupilEntity Pupil { get; set; }
+    public ICollection<PupilEntity> Pupils { get; set; }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin, Director, Teacher")]
 [ApiController]
 [Route("api/[controller]")]
 public class ChatController : ControllerBase
@@ -26,9 +26,14 @@ public class ChatController : ControllerBase
         return Ok(rooms);
     }
 
-    [HttpGet("room/{roomId}/messages")]
+    [HttpGet("room/{roomId:guid}/messages")]
     public async Task<IActionResult> GetMessages(Guid roomId)
     {
+        var userId = GetCurrentUserId();
+
+        var rooms = await _chatService.GetUserRooms(userId);
+        if (!rooms.Any(r => r.Id == roomId)) return Forbid("У вас нет доступа к этой комнате");
+
         var messages = await _chatService.GetMessagesByRoomId(roomId);
         return Ok(messages);
     }
@@ -36,8 +41,13 @@ public class ChatController : ControllerBase
     [HttpPost("room")]
     public async Task<IActionResult> CreateRoom([FromBody] ChatRoom room)
     {
+        if (room == null) return BadRequest("Комната не может быть пустой");
+
+        var userId = GetCurrentUserId();
+        room.AddParticipant(userId);
+
         await _chatService.AddRoom(room);
-        return Ok();
+        return CreatedAtAction(nameof(GetMessages), new { roomId = room.Id }, room);
     }
 
     private Guid GetCurrentUserId()

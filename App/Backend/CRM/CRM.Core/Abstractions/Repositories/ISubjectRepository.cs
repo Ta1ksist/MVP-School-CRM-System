@@ -7,6 +7,7 @@ public interface ISubjectRepository
     Task<Subject> GetSubjectByName(string name);
     Task<List<Subject>> GetAllSubjects();
     Task<Guid> AddSubject(Subject subject);
-    Task<Guid> UpdateSubject(Guid id, string name, Teacher teachers);
+    Task AddTeacherToSubject(Guid subjectId, Guid teacherId);
+    Task<Guid> UpdateSubject(Guid id, string name, ICollection<Teacher> teachers);
     Task<Guid> DeleteSubject(Guid id);
 }

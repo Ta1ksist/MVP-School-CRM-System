@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class SubjectController : ControllerBase
@@ -26,8 +26,7 @@ public class SubjectController : ControllerBase
         if (subject == null) return NotFound();
         var response = new SubjectResponse(
             subject.Id,
-            subject.Name,
-            subject.Teachers
+            subject.Name
             );
         
         return Ok(response);
@@ -38,7 +37,7 @@ public class SubjectController : ControllerBase
     {
         var subjects = await _subjectService.GetAllSubjects();
         var response = subjects
-            .Select(s => new SubjectResponse(s.Id, s.Name, s.Teachers));
+            .Select(s => new SubjectResponse(s.Id, s.Name));
         
         return Ok(response);
     }
@@ -48,8 +47,7 @@ public class SubjectController : ControllerBase
     {
         var subject = new Subject(
             Guid.NewGuid(),
-            request.Name,
-            request.Teachers
+            request.Name
         );
         
         await _subjectService.AddSubject(subject);
@@ -57,7 +55,7 @@ public class SubjectController : ControllerBase
     }
     
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdateSubject(Guid id, string name, Teacher teachers)
+    public async Task<ActionResult<Guid>> UpdateSubject(Guid id, string name, ICollection<Teacher> teachers)
     {
         await _subjectService.UpdateSubject(id, name, teachers);
         return Ok();

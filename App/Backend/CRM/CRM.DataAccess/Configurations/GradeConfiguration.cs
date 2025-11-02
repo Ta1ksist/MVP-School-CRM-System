@@ -10,9 +10,9 @@ public class GradeConfiguration : IEntityTypeConfiguration<GradeEntity>
     {
         builder.HasKey(g => g.Id);
         builder.Property(g => g.Name).IsRequired();
-        builder.HasMany(g => g.Pupils)
+        builder.HasMany(x => x.Pupils)
             .WithOne(p => p.Grade)
             .HasForeignKey(p => p.GradeId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

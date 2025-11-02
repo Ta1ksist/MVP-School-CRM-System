@@ -8,9 +8,7 @@ public record PupilRequest(
     string Patronymic,
     DateOnly DateOfBirth,
     Guid GradeId,
-    Grade Grade,
     string PhoneNumber,
     string Email,
-    string Address,
-    ICollection<Parent> Parents
+    string Address
     );

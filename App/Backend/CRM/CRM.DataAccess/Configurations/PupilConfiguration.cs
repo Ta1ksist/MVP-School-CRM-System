@@ -17,12 +17,7 @@ public class PupilConfiguration : IEntityTypeConfiguration<PupilEntity>
         builder.Property(p => p.PhoneNumber).IsRequired();
         builder.Property(p => p.Email).IsRequired();
         builder.Property(p => p.Address).IsRequired();
-        builder.HasOne(p => p.Grade)
-            .WithMany(g => g.Pupils)
-            .HasForeignKey(p => p.GradeId)
-            .IsRequired();
         builder.HasMany(p => p.Parents)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(pu => pu.Pupils);
     }
 }

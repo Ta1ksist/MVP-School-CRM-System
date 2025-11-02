@@ -52,21 +52,45 @@ public class PupilRepository  : IPupilRepository
     
     public async Task<Guid> AddPupil(Pupil pupil)
     {
-        var pupilEntity = _mapper.Map<PupilEntity>(pupil);
-
+        var pupilEntity = new PupilEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = pupil.FirstName,
+            LastName = pupil.LastName,
+            DateOfBirth = pupil.DateOfBirth,
+            GradeId = pupil.GradeId,
+            PhoneNumber = pupil.PhoneNumber,
+            Email = pupil.Email,
+            Address = pupil.Address
+        };
         await _context.AddAsync(pupilEntity);
         await _context.SaveChangesAsync();
         
         return pupilEntity.Id;
     }
 
+    public async Task AddParentToPupil(Guid pupilId, Guid parentId)
+    {
+        var pu = await _context.Pupils
+            .Include(p => p.Parents)
+            .FirstOrDefaultAsync(p => p.Id == pupilId);
+        if (pu == null) throw new KeyNotFoundException("Ученик не найден");
+
+        var pa = await _context.Parents.FirstOrDefaultAsync(p => p.Id == parentId);
+        if (pa == null) throw new KeyNotFoundException("Родитель не найден");
+
+        pu.Id = pupilId;
+        if (!pu.Parents.Any(p => p.Id == parentId)) pu.Parents.Add(pa);
+
+        await _context.SaveChangesAsync();
+    }
+    
     public async Task<Guid> UpdatePupil(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
+        Guid gradeId,string phoneNumber, string email, string address)
     {
         var pupilEntity = await _context.Pupils
             .Include(p => p.Parents)
-            .Include(p => p.Grade)
             .FirstOrDefaultAsync(p => p.Id == id);
 
         if (pupilEntity == null) throw new Exception("Ученик не найден");
@@ -81,10 +105,6 @@ public class PupilRepository  : IPupilRepository
         pupilEntity.Address = address;
 
         _context.Parents.RemoveRange(pupilEntity.Parents);
-
-        var parentEntities = parents.Select(p => _mapper.Map<ParentEntity>(p)).ToList();
-        pupilEntity.Parents = parentEntities;
-
         await _context.SaveChangesAsync();
 
         return id;

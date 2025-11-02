@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class PupilController : ControllerBase
@@ -23,7 +23,6 @@ public class PupilController : ControllerBase
     public async Task<ActionResult<Pupil>> GetPupilByName(string firstName, string lastName)
     {
         var pupil = await _pupilService.GetPupilByName(firstName, lastName);
-        if (pupil == null) return NotFound();
         var response = new PupilResponse(
             pupil.Id,
             pupil.FirstName,
@@ -31,11 +30,9 @@ public class PupilController : ControllerBase
             pupil.Patronymic,
             pupil.DateOfBirth,
             pupil.GradeId,
-            pupil.Grade,
             pupil.PhoneNumber,
             pupil.Email,
-            pupil.Address,
-            pupil.Parents
+            pupil.Address
             );
         
         return Ok(response);
@@ -47,7 +44,7 @@ public class PupilController : ControllerBase
         var pupils = await _pupilService.GetAllPupils();
         var response = pupils
             .Select(p => new PupilResponse(p.Id, p.FirstName, p.LastName, p.Patronymic, p.DateOfBirth, p.GradeId,
-                p.Grade, p.PhoneNumber, p.Email, p.Address, p.Parents));
+                p.PhoneNumber, p.Email, p.Address));
         
         return Ok(response);
     }
@@ -62,11 +59,9 @@ public class PupilController : ControllerBase
             request.Patronymic,
             request.DateOfBirth,
             request.GradeId,
-            request.Grade,
             request.PhoneNumber,
             request.Email,
-            request.Address,
-            request.Parents
+            request.Address
             );
         
         await _pupilService.AddPupil(pupil);
@@ -74,12 +69,10 @@ public class PupilController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Guid>> UpdatePupil(Guid id, string firstName, string lastName, string patronymic,
-        DateOnly dateOfBirth,
-        Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
+    public async Task<ActionResult<Guid>> UpdatePupil(Guid id, [FromBody] PupilRequest request)
     {
-        await _pupilService.UpdatePupil(id, firstName, lastName, patronymic, dateOfBirth, gradeId, grade, 
-            phoneNumber, email, address, parents);
+        await _pupilService.UpdatePupil(id, request.FirstName, request.LastName, request.Patronymic, request.DateOfBirth,
+            request.GradeId, request.PhoneNumber, request.Email, request.Address);
         return Ok();
     }
 

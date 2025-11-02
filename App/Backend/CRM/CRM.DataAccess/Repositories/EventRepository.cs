@@ -51,9 +51,16 @@ public class EventRepository : IEventRepository
 
     public async Task<Guid> AddEvent(Event eevent)
     {
-        var eventEntity = _mapper.Map<EventEntity>(eevent);
+        // var eventEntity = _mapper.Map<EventEntity>(eevent);
+        var eventEntity = new EventEntity { 
+        Id = eevent.Id,
+        Name = eevent.Name,
+        Description = eevent.Description,
+        Date = eevent.Date,
+        PhotoPath = eevent.PhotoPath
+        };
 
-        await _context.Events.AddAsync(eventEntity);
+    await _context.Events.AddAsync(eventEntity);
         await _context.SaveChangesAsync();
         return eventEntity.Id;
     }

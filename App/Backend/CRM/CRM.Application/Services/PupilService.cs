@@ -36,12 +36,17 @@ public class PupilService : IPupilService
         return await _repository.AddPupil(pupil);
     }
 
+    public async Task AddParentToPupil(Guid pupilId, Guid parentId)
+    {
+        await _repository.AddParentToPupil(pupilId, parentId);
+    }
+
     public async Task<Guid> UpdatePupil(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        Guid gradeId, Grade grade, string phoneNumber, string email, string address, ICollection<Parent> parents)
+        Guid gradeId, string phoneNumber, string email, string address)
     {
-        return await _repository.UpdatePupil(id, firstName, lastName, patronymic, dateOfBirth, gradeId, grade, 
-            phoneNumber, email, address, parents);
+        return await _repository.UpdatePupil(id, firstName, lastName, patronymic, dateOfBirth, gradeId, 
+            phoneNumber, email, address);
     }
 
     public async Task<Guid> DeletePupil(Guid id)

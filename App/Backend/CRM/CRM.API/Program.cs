@@ -9,28 +9,64 @@ using CRM.Core.Abstractions.Auth;
 using CRM.Core.Abstractions.Repositories;
 using CRM.Core.Abstractions.Services;
 using CRM.DataAccess;
+using CRM.DataAccess.Entities;
 using CRM.DataAccess.Repositories;
 using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-// Миграция, обновить бд
-// Тесты
+
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme.",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddAuthorization();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddDbContext<CRMContext>(options =>
     options.UseNpgsql(connectionString));
-builder.Services.AddHangfire(configuration => 
-    configuration.UseSqlServerStorage(connectionString));
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UsePostgreSqlStorage(connectionString, new PostgreSqlStorageOptions
+    {
+        SchemaName = "hangfire"
+    }));
 builder.Services.AddHangfireServer();
 builder.Services.AddSignalR();
 
@@ -115,16 +151,17 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader());
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<CRMContext>()
     .AddDefaultTokenProviders();
-
+builder.Services.AddScoped<RoleManager<IdentityRole<Guid>>>();
+builder.Services.AddScoped<UserManager<UserEntity>>();
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
     await DataSeeder.SeedRolesAsync(roleManager);
 }
 
@@ -135,7 +172,11 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.MapHangfireDashboard();
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    DashboardTitle = "CRM Dashboard",
+    Authorization = new[] { new HangfireAuthorizationFilterService() }
+});
 RecurringJob.AddOrUpdate<ScheduledTasksService>(
     methodCall: service => service.SendMonthlyIncomeReport(),
     cronExpression: Cron.Monthly(1, 8)

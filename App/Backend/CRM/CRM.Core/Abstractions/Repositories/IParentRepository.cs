@@ -11,6 +11,6 @@ public interface IParentRepository
 
     Task<Guid> UpdateParent(Guid id, string firstName, string lastName, string patronymic,
         DateOnly dateOfBirth,
-        string role, string phoneNumber, string email, string address, Guid pupilId, Pupil pupil);
+        string role, string phoneNumber, string email, string address, ICollection<Pupil> pupil);
     Task<Guid> DeleteParent(Guid id);
 }

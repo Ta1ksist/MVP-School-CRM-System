@@ -12,7 +12,8 @@ public class Teacher
     public string Email { get; set; }
     public string Address { get; set; }
 
-    public ICollection<Subject> Subjects { get; set; }
+    private readonly List<Subject> _subjects = new();
+    public IReadOnlyCollection<Subject> Subjects => _subjects.AsReadOnly();
     
     public User User { get; set; }
     public Guid UserId { get; set; }
@@ -20,7 +21,7 @@ public class Teacher
     public string FullName => $"{LastName} {FirstName} {Patronymic}";
 
     public Teacher(Guid id, string firstName, string lastName, string patronymic, DateOnly dateOfBirth,
-        string photoPath, string phoneNumber, string email, string address, ICollection<Subject> subjects, User user, Guid userId)
+        string photoPath, string phoneNumber, string email, string address, User user, Guid userId)
     {
         Id = id;
         FirstName = firstName;
@@ -31,14 +32,13 @@ public class Teacher
         PhoneNumber = phoneNumber;
         Email = email;
         Address = address;
-        Subjects = subjects;
         User = user;
         UserId = userId;
     }
 
     public static (Teacher teacher, string Error) Create(Guid id, string firstName, string lastName,
         string patronymic, string photoPath, DateOnly dateOfBirth, string phoneNumber, string email,
-        string address, ICollection<Subject> subjects, User user, Guid userId)
+        string address, User user, Guid userId)
     {
         string error = "";
 
@@ -51,8 +51,21 @@ public class Teacher
         if (string.IsNullOrEmpty(address)) error = "Строка адреса не может быть пустой";
 
         var teacher = new Teacher(id, firstName, lastName, patronymic, dateOfBirth, photoPath, phoneNumber, email,
-            address, subjects, user, userId);
+            address, user, userId);
 
         return (teacher, error);
+    }
+    
+    public void AddSubject(Subject subject)
+    {
+        if (subject == null) throw new ArgumentNullException(nameof(subject));
+        if (_subjects.Any(p => p.Id == subject.Id)) return;
+        _subjects.Add(subject);
+    }
+    
+    public void RemoveParent(Guid subjectId)
+    {
+        var s = _subjects.FirstOrDefault(x => x.Id == subjectId);
+        if (s != null) _subjects.Remove(s);
     }
 }
