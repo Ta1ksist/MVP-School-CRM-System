@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize(Roles = "Admin, Director, Teacher")]
+// [Authorize(Roles = "Admin, Director, Teacher")]
 [ApiController]
 [Route("api/[controller]")]
 public class ChatController : ControllerBase

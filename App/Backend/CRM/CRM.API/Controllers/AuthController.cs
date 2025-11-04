@@ -17,34 +17,25 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
     {
-        try
-        {
-            await _authService.Register(dto);
-            return Ok(new { Message = "Пользователь успешно зарегистрирован" });
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { Error = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { Error = ex.Message });
-        }
+        await _authService.Register(dto);
+        return Ok(new { message = "Регистрация успешно выполнена" });
     }
-
+    
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginDTO dto)
     {
-        try
-        {
-            var token = await _authService.Login(dto);
-            return Ok(new { Token = token });
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            return Unauthorized(new { Error = ex.Message });
-        }
+        var token = await _authService.Login(dto);
+        return Ok(new { token });
+    }
+    
+    [HttpGet("admin-test")]
+    [Authorize(Policy = "AdminOnly")]
+    public IActionResult AdminTest()
+    {
+        return Ok("У тебя есть доступ Admin");
     }
 }

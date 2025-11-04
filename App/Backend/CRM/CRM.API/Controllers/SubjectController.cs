@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize(Roles = "Admin")]
+// [Authorize(Policy = "AdminOnly")]
 [ApiController]
 [Route("api/[controller]")]
 public class SubjectController : ControllerBase
@@ -20,7 +20,7 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet("ByName/{name}")]
-    public async Task<ActionResult<Subject>> GetSubjectByName(string name)
+    public async Task<ActionResult<SubjectResponse>> GetSubjectByName(string name)
     {
         var subject = await _subjectService.GetSubjectByName(name);
         if (subject == null) return NotFound();
@@ -33,7 +33,7 @@ public class SubjectController : ControllerBase
     }
     
     [HttpGet("all")]
-    public async Task<ActionResult<List<Subject>>> GetAllSubjects()
+    public async Task<ActionResult<List<SubjectResponse>>> GetAllSubjects()
     {
         var subjects = await _subjectService.GetAllSubjects();
         var response = subjects

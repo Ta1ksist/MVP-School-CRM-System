@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.API.Controllers;
 
-[Authorize(Roles = "Admin, Director")]
+// [Authorize(Roles = "Admin, Director")]
 [ApiController]
 [Route("api/[controller]")]
 public class FinanceController : ControllerBase
