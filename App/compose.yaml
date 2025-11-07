@@ -1,0 +1,49 @@
+﻿version: "3.9"
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: School_CRM_DB
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d School_CRM_DB -h localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: .
+      dockerfile: ./Backend/CRM/CRM.API/Dockerfile
+    restart: on-failure
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=host.docker.internal;Port=5432;Database=School_CRM_DB;Username=postgres;Password=postgres"
+      Jwt__Issuer: "SchoolCRM"
+      Jwt__Audience: "CRMUsers"
+      Jwt__Key: "ThisIsASecureSecretKeyForJwt123!"
+      ASPNETCORE_URLS: "http://+:8080"
+    ports:
+      - "5100:8080"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

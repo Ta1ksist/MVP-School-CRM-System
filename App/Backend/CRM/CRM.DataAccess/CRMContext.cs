@@ -35,13 +35,14 @@ public class CRMContext
         modelBuilder.ApplyConfiguration(new ChatMessageConfiguration());
         modelBuilder.ApplyConfiguration(new ChatParticipantEntityConfiguration());
         
-        var adminId = Guid.NewGuid();
-
+        // var adminId = Guid.NewGuid();
+        var adminId = new Guid("11111111-1111-1111-1111-111111111111");
         var admin = new UserEntity
         {
             Id = adminId,
             UserName = "admin",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin321"),
+            // пароль admin321
+            PasswordHash = "$2a$11$OImh9pA1nRKgoZA/AQBbqO9MFAM5XSoDjVUeQiRFhvg68ZkprUVqG",
             Role = "Admin"
         };
 

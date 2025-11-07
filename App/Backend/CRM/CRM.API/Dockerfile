@@ -1,23 +1,23 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CRM.API/CRM.API.csproj", "CRM.API/"]
-RUN dotnet restore "CRM.API/CRM.API.csproj"
-COPY . .
-WORKDIR "/src/CRM.API"
-RUN dotnet build "./CRM.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CRM.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+COPY Backend/CRM/CRM.API/CRM.API.csproj CRM.API/
+COPY Backend/CRM/CRM.Application/CRM.Application.csproj CRM.Application/
+COPY Backend/CRM/CRM.Core/CRM.Core.csproj CRM.Core/
+COPY Backend/CRM/CRM.DataAccess/CRM.DataAccess.csproj CRM.DataAccess/
 
-FROM base AS final
+RUN dotnet restore CRM.API/CRM.API.csproj
+
+COPY Backend/CRM/ ./
+WORKDIR /src/CRM.API
+RUN dotnet publish -c Release -o /app/out
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "CRM.API.dll"]

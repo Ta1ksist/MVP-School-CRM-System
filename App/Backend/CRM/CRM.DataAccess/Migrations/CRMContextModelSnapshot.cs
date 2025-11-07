@@ -506,9 +506,9 @@ namespace CRM.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c456eaea-e6b6-4554-8cc0-33f0d0491ead"),
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3ab2b978-55f8-42e4-9c76-092a5a567029",
+                            ConcurrencyStamp = "d2d58dee-c13b-4b2e-a4e2-039d0fbe6dfd",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PasswordHash = "$2a$11$OImh9pA1nRKgoZA/AQBbqO9MFAM5XSoDjVUeQiRFhvg68ZkprUVqG",

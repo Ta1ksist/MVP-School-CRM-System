@@ -9,7 +9,7 @@ public class CRMContextFactory :  IDesignTimeDbContextFactory<CRMContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<CRMContext>();
         optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5432;Database=School_CRM_DB;Username=postgres;Password=postgres");
+            "Host=host.docker.internal;Port=5432;Database=School_CRM_DB;Username=postgres;Password=postgres");
 
         return new CRMContext(optionsBuilder.Options);
     }

@@ -1,7 +1,0 @@
-﻿services:
-  crm.api:
-    image: crm.api
-    build:
-      context: .
-      dockerfile: CRM.API/Dockerfile
-

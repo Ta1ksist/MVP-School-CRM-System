@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
+using System.Threading;
+
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
@@ -109,42 +112,6 @@ builder.Services.AddScoped<IChatService, ChatService>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
-// builder.Services.AddAuthentication(options =>
-//     {
-//         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//     })
-//     .AddJwtBearer(options =>
-//     {
-//         options.SaveToken = true;
-//         options.RequireHttpsMetadata = false;
-//         options.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             ValidateIssuer = true,
-//             ValidateAudience = true,
-//             ValidateLifetime = true,
-//             ValidateIssuerSigningKey = true,
-//             RoleClaimType = "role", // ✅ для ролей
-//             NameClaimType = "name",
-//             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//             ValidAudience = builder.Configuration["Jwt:Audience"],
-//             IssuerSigningKey = new SymmetricSecurityKey(
-//                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//         };
-//         options.Events = new JwtBearerEvents
-//         {
-//             OnMessageReceived = context =>
-//             {
-//                 var accessToken = context.Request.Query["access_token"];
-//                 if (!string.IsNullOrEmpty(accessToken) &&
-//                     context.HttpContext.Request.Path.StartsWithSegments("/chathub"))
-//                 {
-//                     context.Token = accessToken;
-//                 }
-//                 return Task.CompletedTask;
-//             }
-//         };
-//     });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -162,7 +129,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             RoleClaimType = "role"
         };
     });
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
@@ -184,16 +150,61 @@ builder.Services.AddScoped<UserManager<UserEntity>>();
 
 var app = builder.Build();
 
+app.UsePathBase("/");
+app.UseForwardedHeaders();
+
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-    await DataSeeder.SeedRolesAsync(roleManager);
+    var services = scope.ServiceProvider;
+    var configuration = services.GetRequiredService<IConfiguration>();
+    var connection = configuration.GetConnectionString("DefaultConnection");
+
+    async Task WaitForPostgresAsync(string cs, int retrySeconds = 1, int maxRetries = 60)
+    {
+        var tries = 0;
+        while (true)
+        {
+            try
+            {
+                await using var conn = new NpgsqlConnection(cs);
+                await conn.OpenAsync();
+                conn.Close();
+                return;
+            }
+            catch (Exception)
+            {
+                tries++;
+                if (tries >= maxRetries) throw;
+                Console.WriteLine($"недоступен, повторите попытку {tries}/{maxRetries}...");
+                await Task.Delay(TimeSpan.FromSeconds(retrySeconds));
+            }
+        }
+    }
+
+    try
+    {
+        await WaitForPostgresAsync(connection, retrySeconds: 2, maxRetries: 60);
+
+        var db = services.GetRequiredService<CRMContext>();
+        db.Database.Migrate();
+
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        await DataSeeder.SeedRolesAsync(roleManager);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Не удалось или база данных недоступна: " + ex);
+    }
 }
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CRM API V1");
+        c.RoutePrefix = string.Empty;
+    });
     app.UseDeveloperExceptionPage();
 }
 
@@ -208,11 +219,15 @@ RecurringJob.AddOrUpdate<ScheduledTasksService>(
 );
 
 app.UseRouting();
-app.UseHttpsRedirection();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHangfireDashboard("/hangfire");
 app.MapControllers();
 app.MapHub<ChatHub>("/chathub");
 
